@@ -398,22 +398,20 @@
         
   <div class="rewardParent">
     <div></div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赞赏</span>
-    </button>
-<div class="-mob-share-ui-bg"></div>
-<script id="-mob-share" src="http://f1.webshare.mob.com/code/mob-share.js?appkey=19cb1b33d2b17"></script>
+    <div id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <a href="javascript:void(0);">赞赏</a>
+    </div>
     <div id="QR" style="display: none;">
       
         <div id="wechat" style="display: inline-block">
           <img id="wechat_qr" src="/images/wechat.png" alt="longjie WeChat Pay"/>
-          <p>微信</p>
+          <p>微信打赏</p>
         </div>
       
       
         <div id="alipay" style="display: inline-block">
           <img id="alipay_qr" src="/images/alipay.png" alt="longjie Alipay"/>
-          <p>支付宝</p>
+          <p>支付宝打赏</p>
         </div>
       
     </div>
