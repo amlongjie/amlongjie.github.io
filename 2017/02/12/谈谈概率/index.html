@@ -72,7 +72,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="JSON解析," />
+  <meta name="keywords" content="成长日记," />
 
 
 
@@ -88,16 +88,16 @@
 
 
 
-<meta name="description" content="项目中经常要做JSON解析,目前常用的是Jackson,看了官网的文档,记录一下.">
+<meta name="description" content="把概率这个工具放进你的工具箱.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Jackson快速入门">
-<meta property="og:url" content="http://www.lilongjie.com/2017/01/07/Jackson快速入门/index.html">
+<meta property="og:title" content="谈谈概率">
+<meta property="og:url" content="http://www.lilongjie.com/2017/02/12/谈谈概率/index.html">
 <meta property="og:site_name" content="Longjie">
-<meta property="og:description" content="项目中经常要做JSON解析,目前常用的是Jackson,看了官网的文档,记录一下.">
-<meta property="og:updated_time" content="2017-01-07T04:07:06.000Z">
+<meta property="og:description" content="把概率这个工具放进你的工具箱.">
+<meta property="og:updated_time" content="2017-02-12T15:20:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jackson快速入门">
-<meta name="twitter:description" content="项目中经常要做JSON解析,目前常用的是Jackson,看了官网的文档,记录一下.">
+<meta name="twitter:title" content="谈谈概率">
+<meta name="twitter:description" content="把概率这个工具放进你的工具箱.">
 
 
 
@@ -125,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://www.lilongjie.com/2017/01/07/Jackson快速入门/"/>
+  <link rel="canonical" href="http://www.lilongjie.com/2017/02/12/谈谈概率/"/>
 
 
 
 
 
-  <title> Jackson快速入门 | Longjie </title>
+  <title> 谈谈概率 | Longjie </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -258,7 +258,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://www.lilongjie.com/2017/01/07/Jackson快速入门/">
+  <link itemprop="mainEntityOfPage" href="http://www.lilongjie.com/2017/02/12/谈谈概率/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="longjie">
@@ -282,7 +282,7 @@
             
             
               
-                Jackson快速入门
+                谈谈概率
               
             
           </h1>
@@ -295,8 +295,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-07T12:01:24+08:00">
-                2017-01-07
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-12T23:19:09+08:00">
+                2017-02-12
               </time>
             
 
@@ -315,7 +315,7 @@
 
           
           
-             <span id="/2017/01/07/Jackson快速入门/" class="leancloud_visitors" data-flag-title="Jackson快速入门">
+             <span id="/2017/02/12/谈谈概率/" class="leancloud_visitors" data-flag-title="谈谈概率">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -340,38 +340,15 @@
       
 
       
-        <p>项目中经常要做JSON解析,目前常用的是Jackson,看了官网的文档,记录一下.</p>
-<a id="more"></a>
-<h2 id="一分钟入门-obj-gt-json-json-gt-obj"><a href="#一分钟入门-obj-gt-json-json-gt-obj" class="headerlink" title="一分钟入门,obj-&gt;json, json-&gt;obj"></a>一分钟入门,obj-&gt;json, json-&gt;obj</h2><ul>
-<li>javabean</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> Integer age;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">getAge</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(Integer age)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.age = age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Student&#123;"</span> +</div><div class="line">                <span class="string">"name='"</span> + name + <span class="string">'\''</span> +</div><div class="line">                <span class="string">", age="</span> + age +</div><div class="line">                <span class="string">'&#125;'</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>client</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ObjectMapper objectMapper;</div><div class="line"></div><div class="line">    <span class="meta">@Before</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUp</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.objectMapper = <span class="keyword">new</span> ObjectMapper();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">json2Object</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        String stuJson = <span class="string">"&#123;\"name\":\"lilongjie\",\"age\":14&#125;"</span>;</div><div class="line">        Student student = objectMapper.readValue(stuJson, Student.class);</div><div class="line">        System.out.println(student);</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">object2Json</span><span class="params">()</span> <span class="keyword">throws</span> JsonProcessingException </span>&#123;</div><div class="line">        Student student = <span class="keyword">new</span> Student();</div><div class="line">        student.setName(<span class="string">"lilongjie"</span>);</div><div class="line">        student.setAge(<span class="number">19</span>);</div><div class="line">        System.out.println(objectMapper.writeValueAsString(student));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="三分钟入门-解析List-Map"><a href="#三分钟入门-解析List-Map" class="headerlink" title="三分钟入门,解析List,Map"></a>三分钟入门,解析List,Map</h2><p>对于Map&lt;String,String&gt; 或者 List&lt;String&gt; 可以直接使用Map.class/List.class</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">json2List</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    String listJson = <span class="string">"[&#123;\"name\":\"lilongjie\",\"age\":14&#125;,&#123;\"name\":\"lilongjie\",\"age\":19&#125;]"</span>;</div><div class="line">    List&lt;Student&gt; results = objectMapper.readValue(listJson,</div><div class="line">            <span class="keyword">new</span> TypeReference&lt;List&lt;Student&gt;&gt;() &#123; &#125; );</div><div class="line">    System.out.println(results);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="常用注解"><a href="#常用注解" class="headerlink" title="常用注解"></a>常用注解</h2><h3 id="JsonIgnoreProperties"><a href="#JsonIgnoreProperties" class="headerlink" title="@JsonIgnoreProperties"></a>@JsonIgnoreProperties</h3><ul>
-<li>源码</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Target</span>(&#123;ElementType.ANNOTATION_TYPE, ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.FIELD&#125;)</div><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</div><div class="line"><span class="meta">@JacksonAnnotation</span></div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> JsonIgnoreProperties &#123;</div><div class="line">    String[] value() <span class="keyword">default</span> &#123;&#125;;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">ignoreUnknown</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p>功能:屏蔽不想反序列化的字段</p>
-</li>
-<li><p>特殊说明:value可以指定字段名,是个数组,而ignoreUnknow可以用来屏蔽Java类里没定义的字段,开发中不应该使用,上线之后可以使用,防止依赖服务返回数据改变,对系统解析带来的异常.</p>
-</li>
-</ul>
-<h3 id="JsonInclude"><a href="#JsonInclude" class="headerlink" title="@JsonInclude"></a>@JsonInclude</h3><ul>
-<li>源码</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Target</span>(&#123;ElementType.ANNOTATION_TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.TYPE, ElementType.PARAMETER&#125;)</div><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</div><div class="line"><span class="meta">@JacksonAnnotation</span></div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> JsonInclude &#123;</div><div class="line">    JsonInclude.<span class="function">Include <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> JsonInclude.Include.ALWAYS</span>;</div><div class="line"></div><div class="line">    JsonInclude.<span class="function">Include <span class="title">content</span><span class="params">()</span> <span class="keyword">default</span> JsonInclude.Include.ALWAYS</span>;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">enum</span> Include &#123;</div><div class="line">        ALWAYS,</div><div class="line">        NON_NULL,</div><div class="line">        NON_DEFAULT,</div><div class="line">        NON_EMPTY;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">private</span> <span class="title">Include</span><span class="params">()</span> </span>&#123;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>功能:序列化的时候想要加入的字段.在rest服务中,将返回对象设置为一个,通过设置NON_NULL,就可以实现,一个对象序列化成返回的json.并且没有null数据</li>
-</ul>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
-<p><a href="https://github.com/FasterXML/jackson-docs" target="_blank" rel="external">https://github.com/FasterXML/jackson-docs</a></p>
-</blockquote>
+        <p>把概率这个工具放进你的工具箱.<br><a id="more"></a></p>
+<h2 id="赌徒谬误"><a href="#赌徒谬误" class="headerlink" title="赌徒谬误"></a>赌徒谬误</h2><p>投硬币连续出现n次正面之后,下次出现正面的概率是多少?答案是1/2.</p>
+<p>学过概率的人都知道,投硬币是独立事件,前面的多少次结果都不会影响下一次发生的概率.这多少有点违背人的直觉,正常情况下,我们潜意识会觉得已经出现这么多次正面了,下次出现还是正面的概率应该很小,所以出现反面的概率应该很大.我们不讨论如何运用概率公式进行独立事件计算,我们分析为什么会有这种直觉,这种直觉错了么?假定H代表投硬币投出正面,T代表投硬币投出背面.如果我们连续投掷5次,从第一次开始计算,出现HHHHH的概率是(1/2)^5 = 3.125%, 现在已经投掷了5次,要投掷第六次,那我们从第一次开始投掷的角度去看,出现HHHHHH的概率是(1/2)^6=1.56%,而出现HHHHHT的概率也是1.56%.我们的潜意识在判断这个问题的时候,每次都是从第一次投掷开始分析,那连续出现6次H的概率必然小于连续出现5次H的概率.但是我们面对的问题并不是投五次和投六次的概率比较问题,而是,已经出现5次H了之后,下次投出H和T的概率比较,结果很明显,都是1.56%,第六次投掷,遇到正面反面的概率相等.</p>
+<p>虽然只是一个小小的问题,却能折射出我们在思考中的思维方式,在这个问题的判断上,潜意识在使用绝对的角度去看待这个问题,并且由于这个错误的角度,导致一个不正确的因果推理,而实际上,在这里我们需要使用相对的角度去思考.</p>
+<h2 id="概率的意义"><a href="#概率的意义" class="headerlink" title="概率的意义"></a>概率的意义</h2><p>这世界上很难的一件事,就是让一个人在事前明白,他本可以拥有这件事.为什么难?因为还没有拥有,甚至从来没有拥有过.为什么要事前,因为事后就已经晚了呀.举例来说,每个人都知道我如果当初好好学习,早就考上了清华北大,走向人生巅峰.对,这种本可以拥有,是你事后清楚的意识到,曾经存在这种可能.可问题是,这种已经事后的醒悟,对我们来说,没什么指导意义.</p>
+<p>再举个例子,保险.很多时候身边的人都会接到保险推销员的电话,但是多数的人听到是卖保险的,就匆匆挂断电话.人们可能会说,我还年轻,我这么健康等等理由.并且在若干年,可能十年内,确实他们也没有生过什么大病,出过什么事故,可是,在这十年里,他们却是实实在在的可能会面对这些疾病,意外.只不过,没有遇到.所以他们从来不会明白,本可能拥有,却没能拥有这件事(虽然这不是一件好事情).这可能也是保险不好卖的原因吧.当然就算有人知道要买保险,但是面对琳琅满足的保险险种,可能会无从下手(这种情况很常见),于是也就要么放弃,要么听从指导.这里需要说明,听从指导不是不好,就是有时候可能被宰,仅此而已.我个人的话比较喜欢掌握更多的主动权.</p>
+<p>说了这么多,当然我今天不是来卖保险的.谈谈如何用概率的角度去分析这些事情吧.还是用保险的例子吧,假定现在有一个重疾险,六种疾病在被保列表中,那么我们应该怎么做,很简单,去检索数据,获取最几年,各个疾病在各个年龄段的发病率,假定六种分别是1%,2%,3%,4%,5%,6%.那六种疾病未来一年你都不会患的概率大约是81%,那未来十年都不会患的概率呢,0.81^10 = 12.1%.那么我们就有结论,未来十年有接近88%的概率会患病.那么,你现在是否真的不需要一份保险来保障一下呢.</p>
+<p>人和人的差距有时候真的要比看上去要大的多,有的人从来就没考虑过原来很多东西是可以计算的.</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇文章对我来说,还是挺难写的,概率实际上我学的也不是很好,也只能做一些简单的运算,不过已经对我们的生活产生了不少的帮助,希望可以给看到的人一些启发吧.最近看到有意思的一句话,知识才是金钱,时间才是力量.2017年又过了一周,你的年度计划,是不是已经都忘到脑后了呢?</p>
 
       
     </div>
@@ -395,7 +372,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/JSON解析/" rel="tag">JSON解析</a>
+            <a href="/tags/成长日记/" rel="tag">成长日记</a>
           
         </div>
       
@@ -404,8 +381,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/02/2017计划/" rel="next" title="2017计划">
-                <i class="fa fa-chevron-left"></i> 2017计划
+              <a href="/2017/02/05/个人奋斗只是一种自欺欺人吗/" rel="next" title="个人奋斗只是一种自欺欺人吗">
+                <i class="fa fa-chevron-left"></i> 个人奋斗只是一种自欺欺人吗
               </a>
             
           </div>
@@ -413,10 +390,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/27/迷糊羔羊的自我救赎/" rel="prev" title="迷糊羔羊的自我救赎">
-                迷糊羔羊的自我救赎 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -551,7 +524,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一分钟入门-obj-gt-json-json-gt-obj"><span class="nav-number">1.</span> <span class="nav-text">一分钟入门,obj->json, json->obj</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三分钟入门-解析List-Map"><span class="nav-number">2.</span> <span class="nav-text">三分钟入门,解析List,Map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用注解"><span class="nav-number">3.</span> <span class="nav-text">常用注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JsonIgnoreProperties"><span class="nav-number">3.1.</span> <span class="nav-text">@JsonIgnoreProperties</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JsonInclude"><span class="nav-number">3.2.</span> <span class="nav-text">@JsonInclude</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#赌徒谬误"><span class="nav-number">1.</span> <span class="nav-text">赌徒谬误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概率的意义"><span class="nav-number">2.</span> <span class="nav-text">概率的意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
