@@ -72,7 +72,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="程序基础," />
+  <meta name="keywords" content="李龙杰,龙杰,成长,Java,Python,HTHML,CSS,Javascript" />
 
 
 
@@ -88,16 +88,15 @@
 
 
 
-<meta name="description" content="每个程序员都应该弄明白的字符编码与Unicode那些事.">
-<meta property="og:type" content="article">
-<meta property="og:title" content="字符编码与unicode那些事">
-<meta property="og:url" content="http://www.lilongjie.com/2016/12/10/字符编码与unicode那些事/index.html">
+<meta name="description" content="优秀是一种习惯">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Longjie">
+<meta property="og:url" content="http://www.lilongjie.com/page/3/index.html">
 <meta property="og:site_name" content="Longjie">
-<meta property="og:description" content="每个程序员都应该弄明白的字符编码与Unicode那些事.">
-<meta property="og:updated_time" content="2016-12-11T00:11:00.000Z">
+<meta property="og:description" content="优秀是一种习惯">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="字符编码与unicode那些事">
-<meta name="twitter:description" content="每个程序员都应该弄明白的字符编码与Unicode那些事.">
+<meta name="twitter:title" content="Longjie">
+<meta name="twitter:description" content="优秀是一种习惯">
 
 
 
@@ -125,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://www.lilongjie.com/2016/12/10/字符编码与unicode那些事/"/>
+  <link rel="canonical" href="http://www.lilongjie.com/page/3/"/>
 
 
 
 
 
-  <title> 字符编码与unicode那些事 | Longjie </title>
+  <title> Longjie </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -158,7 +157,9 @@
     
   
 
-  <div class="container one-collumn sidebar-position-right page-post-detail ">
+  <div class="container one-collumn sidebar-position-right 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -247,9 +248,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -258,7 +259,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://www.lilongjie.com/2016/12/10/字符编码与unicode那些事/">
+  <link itemprop="mainEntityOfPage" href="http://www.lilongjie.com/2016/12/08/hello-world/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="longjie">
@@ -282,7 +283,10 @@
             
             
               
-                字符编码与unicode那些事
+                
+                <a class="post-title-link" href="/2016/12/08/hello-world/" itemprop="url">
+                  hello-world
+                </a>
               
             
           </h1>
@@ -295,8 +299,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-10T21:09:05+08:00">
-                2016-12-10
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-08T23:50:21+08:00">
+                2016-12-08
               </time>
             
 
@@ -311,8 +315,8 @@
             
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
-                <a href="/2016/12/10/字符编码与unicode那些事/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/10/字符编码与unicode那些事/" itemprop="commentCount"></span>
+                <a href="/2016/12/08/hello-world/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/08/hello-world/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -322,7 +326,7 @@
 
           
           
-             <span id="/2016/12/10/字符编码与unicode那些事/" class="leancloud_visitors" data-flag-title="字符编码与unicode那些事">
+             <span id="/2016/12/08/hello-world/" class="leancloud_visitors" data-flag-title="hello-world">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -347,88 +351,49 @@
       
 
       
-        <p>每个程序员都应该弄明白的字符编码与Unicode那些事.<br><a id="more"></a></p>
-<h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><h3 id="字符"><a href="#字符" class="headerlink" title="字符"></a>字符</h3><p>字符是指计算机中使用的字母,数字,符号和其他字(中文,韩文等).</p>
-<h3 id="编码-与-解码"><a href="#编码-与-解码" class="headerlink" title="编码 与 解码"></a>编码 与 解码</h3><p>计算机使用二进制来存储数据,所以我们在屏幕上显示的所有字符,在计算机中都是用0和1表示的.</p>
-<blockquote>
-<p>编码就是将我们屏幕中输入的字符转换为计算机可以识别的二进制的过程.<br>而解码就是将二进制转换为我们屏幕中所看到的字符的过程.</p>
-</blockquote>
-<h2 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h2><h3 id="洪荒时代"><a href="#洪荒时代" class="headerlink" title="洪荒时代"></a>洪荒时代</h3><p>首先我们考虑一下,如果让我们自己来实现一个字符编码的设计,我们看看需要哪些原材料.我们需要<b>字符表(Abstract character repertoire)</b>来涵盖我们要表示的字符,我们还需要一个对应表来<b>映射字符所对应的二进制</b>.看起来这样就足够了.</p>
-<p>然后我们回到那个洪荒年代,一开始计算机是只支持英文的,后来又扩充到了欧洲国家的一些字母,可惜然并卵,世界上还有很多国家的文字是无法覆盖的.尤其我大天朝这种汉字博大精深,数量又多.于是乎,各个国家开始为自己国家的字,指定编码标准(也就是我们上面提到的那种方式,当然还会更复杂一些,不过这样简单理解足够了),我们国家的就是GB2312,后来还有GBK,是对GB2312的扩充.然后大家都开始开开心心的用上了计算机.</p>
-<h3 id="互联网来也"><a href="#互联网来也" class="headerlink" title="互联网来也"></a>互联网来也</h3><p>在大家都开开心心用着的时候有个东西开开慢慢兴起,木有错,就是互联网,互联网的迅速普及,让人们第一次体会到了什么叫天涯若比邻,我们可以在网上交朋友,看网页,发邮件等等.有一次你认识了一个日本小朋友,你想问候他一下,于是你给他发了邮件,发了标准的日文过去.过了几天你收到了回信,打开一看,中文日文混杂,一脸懵逼.觉得这个日本小朋友脑子有问题.可实际上日本小朋友收到的邮件也和你收到的类似.也是乱七八糟的.那到底发生了什么事情呢?</p>
-<p>我们先回顾一下上面,中国有一套自己的字符表,和一个对应表,日本同样.首先我们无法保证我们拥有一样的字,比如中文里有”哈”,日文里可能就木有,哪怕日文里有,但是我们在对应表中表示的不同,中文的”哈”对应表里记录的是0010,而在日文里记录的可能是”0011”,那会出现什么问题呢?你发了一个中文的”哈”,实际上就是发了一个0010的二进制过去,而0010的二进制在日文的对应表中反推出的字可能是”呵”.这就是发生上面错误的原因.也是我们常说的乱码现象.</p>
-<blockquote>
-<p>现在你知道了,乱码实际上就是编码和解码使用的姿势不一样导致的</p>
-</blockquote>
-<h3 id="开天辟地"><a href="#开天辟地" class="headerlink" title="开天辟地"></a>开天辟地</h3><p>正当全世界的网民都会这事感觉到蛋疼的时候,有两伙人已经开始着手解决这个问题了,一山不能容二虎,除非…,你懂的.于是乎后来他们合作了.成为了相亲相爱的好基友.所以我们这里只介绍广为人知的unicode.遇到问题,自然就要解决,上面我们已经分析过问题出现的原因了,那要如何解决呢,unicode小分队采取的方式很简单.</p>
-<blockquote>
-<p>把字符表统一,然后为它们编号.</p>
-</blockquote>
-<h3 id="一切尚未结束"><a href="#一切尚未结束" class="headerlink" title="一切尚未结束"></a>一切尚未结束</h3><p>unicode只是给出了标准,但是如何将一个字符对应在的数字存到计算机中,却木有定下来.后来有了三种实现方式,一种是UTF-32,UTF-16,还有UTF-8.现在最常用的就是UTF-8.具体这三种实现方式有什么区别,心急的小伙伴可以右转维基百科/百度百科.不急的可以等待下回分解.</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>工作中总会遇到字符编码问题,也会听到一些概念unicode,utf-8,编码,解码,乱码等等,如果不静下心来研究学习一下,很多东西想当然的去理解,遇到问题,就很难快速定位,解决.</p>
-
+        
+          <p>作为一个程序员,既然程序是从Hello World开始,那博客也从这里开始吧.</p>
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/12/08/hello-world/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
       
     </div>
 
     <div>
       
-        
-
-      
     </div>
 
     <div>
-      
-        
-
       
     </div>
 
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/程序基础/" rel="tag">程序基础</a>
-          
-        </div>
+
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/12/08/hello-world/" rel="next" title="hello-world">
-                <i class="fa fa-chevron-left"></i> hello-world
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/12/11/开始思考/" rel="prev" title="开始思考">
-                开始思考 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-        
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
 
 
           </div>
@@ -436,14 +401,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-      <div class="ds-thread" data-thread-key="2016/12/10/字符编码与unicode那些事/"
-           data-title="字符编码与unicode那些事" data-url="http://www.lilongjie.com/2016/12/10/字符编码与unicode那些事/">
-      </div>
-    
-  </div>
-
 
         </div>
         
@@ -463,17 +420,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://ohps7jj0d.bkt.clouddn.com/1.png"
@@ -539,22 +487,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#预备知识"><span class="nav-number">1.</span> <span class="nav-text">预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#字符"><span class="nav-number">1.1.</span> <span class="nav-text">字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编码-与-解码"><span class="nav-number">1.2.</span> <span class="nav-text">编码 与 解码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符编码"><span class="nav-number">2.</span> <span class="nav-text">字符编码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#洪荒时代"><span class="nav-number">2.1.</span> <span class="nav-text">洪荒时代</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#互联网来也"><span class="nav-number">2.2.</span> <span class="nav-text">互联网来也</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开天辟地"><span class="nav-number">2.3.</span> <span class="nav-text">开天辟地</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一切尚未结束"><span class="nav-number">2.4.</span> <span class="nav-text">一切尚未结束</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
     </div>
@@ -660,10 +592,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
-
-
 
   
 
