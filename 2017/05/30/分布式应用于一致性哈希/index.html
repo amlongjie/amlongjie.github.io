@@ -1,0 +1,884 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="-OdrQHCbeUb03hv7XThVR0jFYa_a2UXlAPfEmeuYhck" />
+
+
+
+
+  <meta name="baidu-site-verification" content="w2otIZ1Zxz" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="系统设计," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="十分钟了解一致性哈希算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式应用于一致性哈希">
+<meta property="og:url" content="http://www.lilongjie.com/2017/05/30/分布式应用于一致性哈希/index.html">
+<meta property="og:site_name" content="Longjie">
+<meta property="og:description" content="十分钟了解一致性哈希算法">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-e30a66f14de66732.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://ohps7jj0d.bkt.clouddn.com/server.png">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-63ab38b2c085aadf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/400">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-bf1ced7a8c0e22cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/400">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-291b3eeb19e2e2ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/400">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-ff7d6f14a799c6ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/400">
+<meta property="og:image" content="http://ohps7jj0d.bkt.clouddn.com/server2.png">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-1664ac76b535f154.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/400">
+<meta property="og:image" content="http://ohps7jj0d.bkt.clouddn.com/server3.png">
+<meta property="og:updated_time" content="2017-09-19T08:54:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分布式应用于一致性哈希">
+<meta name="twitter:description" content="十分钟了解一致性哈希算法">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2656062-e30a66f14de66732.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.lilongjie.com/2017/05/30/分布式应用于一致性哈希/"/>
+
+
+
+
+
+  <title> 分布式应用于一致性哈希 | Longjie </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260964314&web_id=1260964314" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Longjie</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">everything comes full circle</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://www.lilongjie.com/2017/05/30/分布式应用于一致性哈希/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="longjie">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ohps7jj0d.bkt.clouddn.com/hdImg_b8686ed3f0146d75d0f6a2184ca08fe115058132891.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Longjie">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Longjie" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                分布式应用于一致性哈希
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-30T13:18:21+08:00">
+                2017-05-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/05/30/分布式应用于一致性哈希/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/30/分布式应用于一致性哈希/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/05/30/分布式应用于一致性哈希/" class="leancloud_visitors" data-flag-title="分布式应用于一致性哈希">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>十分钟了解一致性哈希算法</p>
+<a id="more"></a>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>最近要在应用中做一层内存缓存来加快系统的响应。但是由于数据量较大，单台Server无法Load全量数据，所以考虑使用哈希的方式进行分片存储在Server的内存中，接入消息队列进行内存数据的淘汰。</p>
+<p>原系统调用关系简化图如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2656062-e30a66f14de66732.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="系统调用图"></p>
+<p>无论应用服务一[下面简称服务一]是以何种方式(HTTP/RPC)去请求应用服务二[下面简称服务二].都会经过一层负载均衡.而现在我们要做内存缓存,实际上就是去自己实现一套负载均衡算法来实现应用一对特定的请求key,去访问特定的应用二的机器.</p>
+<p>在这里我们忽略跨机房,权重等问题.只考虑选定目标主机的策略,即哈希函数.在分布式缓存中,考量一个哈希函数是否优秀,通常可以用三个指标来确定:</p>
+<ol>
+<li>平衡性(Balance)：缓存机器使用率越高越好</li>
+<li>单调性(Monotonicity)：上线/下线机器对缓存命中率的影响越小越好</li>
+<li>分散性(Spread)：一个缓存key,存在于机器中的数量越少越好.(&gt;=1)</li>
+</ol>
+<p>接下来,我们看一下常见的两种哈希函数.在这个场景下的表现.</p>
+<h2 id="简单哈希"><a href="#简单哈希" class="headerlink" title="简单哈希"></a>简单哈希</h2><p>假定有十台Server,我们给每台Server编号0~9.通过对请求key进行哈希,随后余10,得到对应的数,即为对应Server的编号.抽象成公式:</p>
+<blockquote>
+<p>  H = hash(key) % 10</p>
+</blockquote>
+<p>这种方式的哈希函数,在平衡性(十台server全部用上),分散性(每个key对应一台机器)上都很优秀,但是在单调性上,却表现不佳.下面通过一个demo程序,来看一下.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        testAfterAddOneServerHitRate();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testAfterAddOneServerHitRate</span><span class="params">()</span> </span>&#123;</div><div class="line">        List&lt;String&gt; serverList = Lists.newArrayList(<span class="string">"192.168.1.1"</span>,</div><div class="line">                <span class="string">"192.168.1.2"</span>, <span class="string">"192.168.1.3"</span>,</div><div class="line">                <span class="string">"192.168.1.4"</span>, <span class="string">"192.168.1.5"</span>, <span class="string">"192.168.1.6"</span>, <span class="string">"192.168.1.7"</span>,</div><div class="line">                <span class="string">"192.168.1.8"</span>, <span class="string">"192.168.1.9"</span>, <span class="string">"192.168.1.10"</span>);</div><div class="line">        <span class="comment">// serverList多了一台之后.</span></div><div class="line">        serverList.add(<span class="string">"192.168.1.11"</span>);</div><div class="line">        Map&lt;String, Integer&gt; serverHitCount = <span class="keyword">new</span> HashMap&lt;&gt;(<span class="number">10</span>);</div><div class="line">        Map&lt;String, Integer&gt; serverMissCount = <span class="keyword">new</span> HashMap&lt;&gt;(<span class="number">10</span>);</div><div class="line">        <span class="comment">//假定哈希空间为0~2^31-1</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; Integer.MAX_VALUE; i++) &#123;</div><div class="line">            String targetServerBefore = serverList.get(i % <span class="number">10</span>);</div><div class="line">            String targetServerNow = serverList.get(i % <span class="number">11</span>);</div><div class="line">            <span class="keyword">if</span> (targetServerNow.equals(targetServerBefore)) &#123;</div><div class="line">                plusOneToMapKey(serverHitCount, targetServerNow);</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!<span class="string">"192.168.1.11"</span>.equals(targetServerNow)) &#123;</div><div class="line">                plusOneToMapKey(serverMissCount, targetServerNow);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        System.out.println(serverHitCount);</div><div class="line">        System.out.println(serverMissCount);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">plusOneToMapKey</span><span class="params">(Map&lt;String, Integer&gt; map, String key)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (map.containsKey(key)) &#123;</div><div class="line">            map.put(key, map.get(key) + <span class="number">1</span>);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            map.put(key, <span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行结果为:</p>
+<p><img src="http://ohps7jj0d.bkt.clouddn.com/server.png" alt=""></p>
+<p>当新增一台机器后,原server0~server9上的90%的缓存已经不能路由到原来缓存这个数据的机器.所以这种取模的哈希算法,虽然简单,但是在分布式系统中,上线下线机器是在所难免的.在这种情况下缓存的大量失效是无法接收的.</p>
+<h2 id="一致性哈希"><a href="#一致性哈希" class="headerlink" title="一致性哈希"></a>一致性哈希</h2><h3 id="一致性哈希算法设计思路"><a href="#一致性哈希算法设计思路" class="headerlink" title="一致性哈希算法设计思路:"></a>一致性哈希算法设计思路:</h3><ol>
+<li>将整个哈希值空间组织成一个虚拟的圆环.假定某哈希函数的值空间为0~2^31-1,Java中int类型的正值范围.整个哈希环如下.<br><img src="http://upload-images.jianshu.io/upload_images/2656062-63ab38b2c085aadf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/400" alt=""></li>
+<li>我们将服务器的列表,通过哈希函数,哈希到圆环上.<br><img src="http://upload-images.jianshu.io/upload_images/2656062-bf1ced7a8c0e22cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/400" alt=""></li>
+<li>我们将缓存key,也同样映射到缓存空间<br><img src="http://upload-images.jianshu.io/upload_images/2656062-291b3eeb19e2e2ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/400" alt=""></li>
+</ol>
+<h3 id="命中规则"><a href="#命中规则" class="headerlink" title="命中规则"></a>命中规则</h3><p>缓存key,顺时针移动,找到的第一台服务器,就是该缓存key对应缓存存在的机器.</p>
+<h3 id="指标分析"><a href="#指标分析" class="headerlink" title="指标分析"></a>指标分析</h3><ol>
+<li>平衡性:  由于在一个环上,所有的机器都会存储一定量的缓存数据</li>
+<li>单调性:  当有Server02下线的时候,只有Server01和Server02中间的缓存数据会迁移到Server03,而其他缓存数据并不会没任何移动.单调性良好.</li>
+<li>分散性:  每个缓存key都会存储在一台机器中.</li>
+</ol>
+<h3 id="存在问题"><a href="#存在问题" class="headerlink" title="存在问题"></a>存在问题</h3><p>当我们的服务器较少的时候,可能会这种情况:<br><img src="http://upload-images.jianshu.io/upload_images/2656062-ff7d6f14a799c6ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/400" alt=""><br>可能大量的缓存,会命中到Server02.因为Server01~02之间的空隙很大.这样实际上三台机器的负载就会很不均匀.至于有多不均匀,我们可以运行一段Demo程序来看看结果.</p>
+<h4 id="全部采用实节点的Demo"><a href="#全部采用实节点的Demo" class="headerlink" title="全部采用实节点的Demo"></a>全部采用实节点的Demo</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">public class Demo &#123;</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        pureServerList();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void pureServerList()&#123;</div><div class="line">        Hash hash = new MurmurHash();</div><div class="line">        List&lt;String&gt; serverList = Lists.newArrayList(&quot;192.168.1.1&quot;, &quot;192.168.1.2&quot;, &quot;102.168.1.3&quot;);</div><div class="line">        TreeMap&lt;Integer, String&gt; hashCircle = new TreeMap&lt;&gt;();</div><div class="line">        serverList.forEach(item -&gt; hashCircle.put(hash.hash(item) &amp; 0x7fffffff, item));</div><div class="line">        Map&lt;String, Integer&gt; counter = Maps.newHashMap();</div><div class="line">        for (int i = 0; i &lt; Integer.MAX_VALUE ; i++) &#123;</div><div class="line">            Integer serverHash = hashCircle.ceilingKey(i);</div><div class="line">            if (serverHash == null) &#123;</div><div class="line">                serverHash = hashCircle.firstKey();</div><div class="line">            &#125;</div><div class="line">            String server = (hashCircle.get(serverHash));</div><div class="line">            if (counter.containsKey(server)) &#123;</div><div class="line">                counter.put(server, counter.get(server) + 1);</div><div class="line">            &#125; else &#123;</div><div class="line">                counter.put(server, 1);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.println(counter);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码说明:</p>
+<ol>
+<li>由于要找到比指定哈希值大的第一个key,则使用TreeMap(红黑树)这种结构,实现简单,并且效率良好.</li>
+<li>对哈希值进行了 &amp; 0x7fffffff 操作,是因为哈希值可能为负.而我们的哈希空间,设定为大于等于0</li>
+</ol>
+<p>程序运行结果:</p>
+<p><img src="http://ohps7jj0d.bkt.clouddn.com/server2.png" alt=""></p>
+<p>由结果我们可以看到三台机器,实际上有一台能映射到的机会非常少.为了解决这个问题,我们可以通过引入虚拟节点来进行解决。</p>
+<h4 id="虚拟节点的引入"><a href="#虚拟节点的引入" class="headerlink" title="虚拟节点的引入"></a>虚拟节点的引入</h4><p>虚拟节点.故名思议.我们可以为我们的每个服务器模拟多个节点,使得更多的机器可以落在哈希环上.通过这种方式来让我们的key,可以落的均匀.最简单的办法.就是在ip后面添加#00,#01这种方式.如下图.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2656062-1664ac76b535f154.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/400" alt=""></p>
+<p>下面我们再写一段程序,看看引入虚拟节点后的key的分布情况.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        virtualServerList();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">virtualServerList</span><span class="params">()</span></span>&#123;</div><div class="line">        Hash hash = <span class="keyword">new</span> MurmurHash();</div><div class="line">        List&lt;String&gt; serverList = Lists.newArrayList(<span class="string">"192.168.1.1"</span>, <span class="string">"192.168.1.2"</span>, <span class="string">"102.168.1.3"</span>);</div><div class="line">        List&lt;String&gt; vServerList = Lists.newArrayList();</div><div class="line">        <span class="keyword">for</span> (String str : serverList) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1024</span>; i++) &#123;</div><div class="line">                vServerList.add(((str + <span class="string">"#"</span> + i)));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        TreeMap&lt;Integer, String&gt; hashCircle = <span class="keyword">new</span> TreeMap&lt;&gt;();</div><div class="line">        vServerList.forEach(item -&gt; hashCircle.put(hash.hash(item) &amp; <span class="number">0x7fffffff</span>, item));</div><div class="line">        Map&lt;String, Integer&gt; counter = Maps.newHashMap();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; Integer.MAX_VALUE ; i++) &#123;</div><div class="line">            Integer serverHash = hashCircle.ceilingKey(i);</div><div class="line">            <span class="keyword">if</span> (serverHash == <span class="keyword">null</span>) &#123;</div><div class="line">                serverHash = hashCircle.firstKey();</div><div class="line">            &#125;</div><div class="line">            String server = (hashCircle.get(serverHash)).split(<span class="string">"#"</span>)[<span class="number">0</span>];</div><div class="line">            <span class="keyword">if</span> (counter.containsKey(server)) &#123;</div><div class="line">                counter.put(server, counter.get(server) + <span class="number">1</span>);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                counter.put(server, <span class="number">1</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.println(counter);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>代码说明:</p>
+<ol>
+<li>每个节点,分成1024个虚拟节点</li>
+</ol>
+<p>程序运行结果:</p>
+<p><img src="http://ohps7jj0d.bkt.clouddn.com/server3.png" alt=""></p>
+<p>通过使用虚拟节点这种方式,我们的key已经可以均匀的落在各台机器上了.</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>目前一致性哈希基本成为了分布式系统组件的标准配置，例如Memcached的各种客户端都提供内置的一致性哈希支持,值得我们学习与使用.</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>《<a href="https://www.akamai.com/us/en/multimedia/documents/technical-publication/consistent-hashing-and-random-trees-distributed-caching-protocols-for-relieving-hot-spots-on-the-world-wide-web-technical-publication.pdf" target="_blank" rel="external">Consistent Hashing and Random Trees: Distributed Caching Protocols for Relieving Hot Spots on the World Wide Web</a>》<br>《<a href="http://blog.codinglabs.org/articles/consistent-hashing.html" target="_blank" rel="external">一致性哈希算法及其在分布式系统中的应用</a>》<br>《<a href="http://blog.csdn.net/cywosp/article/details/23397179" target="_blank" rel="external">每天进步一点点——五分钟理解一致性哈希算法(consistent hashing)</a>》</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/系统设计/" rel="tag">系统设计</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/04/超时时间应该设置多少/" rel="next" title="超时时间应该设置多少">
+                <i class="fa fa-chevron-left"></i> 超时时间应该设置多少
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/11/应对复杂筛选逻辑/" rel="prev" title="应对复杂筛选逻辑">
+                应对复杂筛选逻辑 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/05/30/分布式应用于一致性哈希/"
+           data-title="分布式应用于一致性哈希" data-url="http://www.lilongjie.com/2017/05/30/分布式应用于一致性哈希/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ohps7jj0d.bkt.clouddn.com/hdImg_b8686ed3f0146d75d0f6a2184ca08fe115058132891.jpg"
+               alt="longjie" />
+          <p class="site-author-name" itemprop="name">longjie</p>
+          <p class="site-description motion-element" itemprop="description">优秀是一种习惯</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005056032072811" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/longjieli" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#场景"><span class="nav-number">1.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单哈希"><span class="nav-number">2.</span> <span class="nav-text">简单哈希</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一致性哈希"><span class="nav-number">3.</span> <span class="nav-text">一致性哈希</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一致性哈希算法设计思路"><span class="nav-number">3.1.</span> <span class="nav-text">一致性哈希算法设计思路:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命中规则"><span class="nav-number">3.2.</span> <span class="nav-text">命中规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指标分析"><span class="nav-number">3.3.</span> <span class="nav-text">指标分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存在问题"><span class="nav-number">3.4.</span> <span class="nav-text">存在问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全部采用实节点的Demo"><span class="nav-number">3.4.1.</span> <span class="nav-text">全部采用实节点的Demo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#虚拟节点的引入"><span class="nav-number">3.4.2.</span> <span class="nav-text">虚拟节点的引入</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  人丑就要多读书&copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  <a class="theme-link" href="http://www.miibeian.gov.cn/">
+    京ICP备16059150号
+  </a>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+</div>
+<div class="theme-info">
+  <a class="theme-link" href="http://www.beian.gov.cn/">
+     京公网安备11011302001239
+   </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lilongjie"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RIaV5TGmetLiYCLnCaiW6yyh-gzGzoHsz", "npfj7UDwEmHNxVsMu9mIqu5O");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,867 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="-OdrQHCbeUb03hv7XThVR0jFYa_a2UXlAPfEmeuYhck" />
+
+
+
+
+  <meta name="baidu-site-verification" content="w2otIZ1Zxz" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="POI," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="POI User Model">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java POI 操作Excel(User Model)">
+<meta property="og:url" content="http://www.lilongjie.com/2017/07/09/Java POI操作Excel(User Model)/index.html">
+<meta property="og:site_name" content="Longjie">
+<meta property="og:description" content="POI User Model">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-9e5501a6b086e7fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-40d56f5b59645dc5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-5c6db424f277f1e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-6d3f1513ec2e8b8e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-3327e4d1558bfad4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-e219a41f5500090d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-09-19T09:10:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java POI 操作Excel(User Model)">
+<meta name="twitter:description" content="POI User Model">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2656062-9e5501a6b086e7fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.lilongjie.com/2017/07/09/Java POI操作Excel(User Model)/"/>
+
+
+
+
+
+  <title> Java POI 操作Excel(User Model) | Longjie </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260964314&web_id=1260964314" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Longjie</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">everything comes full circle</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://www.lilongjie.com/2017/07/09/Java POI操作Excel(User Model)/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="longjie">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ohps7jj0d.bkt.clouddn.com/hdImg_b8686ed3f0146d75d0f6a2184ca08fe115058132891.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Longjie">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Longjie" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java POI 操作Excel(User Model)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-09T09:09:08+08:00">
+                2017-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/07/09/Java POI操作Excel(User Model)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/09/Java POI操作Excel(User Model)/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/07/09/Java POI操作Excel(User Model)/" class="leancloud_visitors" data-flag-title="Java POI 操作Excel(User Model)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>POI User Model</p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在B端系统中,通常都会提供Excel导入导出数据的功能.所以使用Java对Excel进行操作是每个Java Web工程师必备的技能.而在Java领域,Apache POI是优秀的Excel操作库.这篇文章开始,我们就使用POI一步一步的进行Excel的操作,到最后自制一个简单的基于POI的Excel解析框架.</p>
+<h2 id="POI简介"><a href="#POI简介" class="headerlink" title="POI简介"></a>POI简介</h2><p>POI-HSSF and POI-XSSF - Java API To Access Microsoft Excel Format Files</p>
+<blockquote>
+<p>HSSF is the POI Project’s pure Java implementation of the Excel ‘97(-2007) file format. XSSF is the POI Project’s pure Java implementation of the Excel 2007 OOXML (.xlsx) file format.</p>
+</blockquote>
+<p>POI针对目前存在的两种版本的Excel有不同的实现方式.而对于相同版本的Excel又分为Dom解析和Sax解析两种.而这两种在内存使用,性能各方面均有不同.官方文档中给出了具体的比较,如下图前四列.第五列则是对Excel2007版本提供的节约内存的导出方式进行了介绍.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2656062-9e5501a6b086e7fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="poi_api_type.png"></p>
+<h2 id="POI-UserModel"><a href="#POI-UserModel" class="headerlink" title="POI UserModel"></a>POI UserModel</h2><p>根据上面的表格我们可以看到,所谓的UserModel实际上就类似于Dom方式的解析.学过Xml解析的朋友都会知道所谓的Dom解析就是将文件全部读入内存,对文件内部的结构进行建模成一颗Dom树的过程.接下来我们看一下POI对Excel的建模的Dom树是什么结构的.</p>
+<h2 id="POI-官网Demo"><a href="#POI-官网Demo" class="headerlink" title="POI 官网Demo"></a>POI 官网Demo</h2><blockquote>
+<p><a href="http://poi.apache.org/spreadsheet/quick-guide.html" target="_blank" rel="external">http://poi.apache.org/spreadsheet/quick-guide.html</a></p>
+</blockquote>
+<p>官网中对这个页面的标题是 <strong>Busy Developers’ Guide to HSSF and XSSF Features</strong></p>
+<p>所以我们通过这个网页Demo的学习,即可完成对POI的入门.</p>
+<h2 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h2><h3 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h3><p>Java版本 ：1.8.0_40<br>Maven版本：3.3.9<br>POI版本 ：3.15</p>
+<h3 id="创建一个工作簿-Workbook"><a href="#创建一个工作簿-Workbook" class="headerlink" title="创建一个工作簿(Workbook)"></a>创建一个工作簿(Workbook)</h3><p>POI中使用Workbook对Excel对象进行建模.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo01</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        Workbook excel1997 = <span class="keyword">new</span> HSSFWorkbook(); <span class="comment">// excel 1997</span></div><div class="line">        FileOutputStream fileOut = <span class="keyword">new</span> FileOutputStream(<span class="string">"workbook.xls"</span>);</div><div class="line">        excel1997.write(fileOut);</div><div class="line">        fileOut.close();</div><div class="line"></div><div class="line">        Workbook excel2007 = <span class="keyword">new</span> XSSFWorkbook(); <span class="comment">// excel 2007</span></div><div class="line">        fileOut = <span class="keyword">new</span> FileOutputStream(<span class="string">"workbook.xlsx"</span>);</div><div class="line">        excel2007.write(fileOut);</div><div class="line">        fileOut.close();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>打开创建的Excel</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2656062-40d56f5b59645dc5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="empty-excel.png"></p>
+<p>Workbook对象是UserModel解析方式中整个Dom树的根对象.而Workbook类本身是一个接口,规范了Workbook对象的基本功能.所以除非我们是要使用特定版本Excel的特性,一般都是面向Workbook接口编程.</p>
+<h3 id="创建一个工作表-sheet"><a href="#创建一个工作表-sheet" class="headerlink" title="创建一个工作表(sheet)"></a>创建一个工作表(sheet)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        Workbook wb = <span class="keyword">new</span> HSSFWorkbook();</div><div class="line">        Sheet sheet1 = wb.createSheet(<span class="string">"new sheet"</span>);</div><div class="line">        Sheet sheet2 = wb.createSheet(<span class="string">"second sheet"</span>);</div><div class="line"></div><div class="line">        <span class="comment">// Note that sheet name is Excel must not exceed 31 characters</span></div><div class="line">        <span class="comment">// and must not contain any of the any of the following characters:</span></div><div class="line">        <span class="comment">// 0x0000</span></div><div class="line">        <span class="comment">// 0x0003</span></div><div class="line">        <span class="comment">// colon (:)</span></div><div class="line">        <span class="comment">// backslash (\)</span></div><div class="line">        <span class="comment">// asterisk (*)</span></div><div class="line">        <span class="comment">// question mark (?)</span></div><div class="line">        <span class="comment">// forward slash (/)</span></div><div class="line">        <span class="comment">// opening square bracket ([)</span></div><div class="line">        <span class="comment">// closing square bracket (])</span></div><div class="line"></div><div class="line">        <span class="comment">// You can use org.apache.poi.ss.util.WorkbookUtil#createSafeSheetName(String nameProposal)&#125;</span></div><div class="line">        <span class="comment">// for a safe way to create valid names, this utility replaces invalid characters with a space (' ')</span></div><div class="line">        String safeName = WorkbookUtil.createSafeSheetName(<span class="string">"[O'Brien's sales*?]"</span>); <span class="comment">// returns " O'Brien's sales   "</span></div><div class="line">        Sheet sheet3 = wb.createSheet(safeName);</div><div class="line"></div><div class="line">        FileOutputStream fileOut = <span class="keyword">new</span> FileOutputStream(<span class="string">"workbook02.xls"</span>);</div><div class="line">        wb.write(fileOut);</div><div class="line">        fileOut.close();</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>打开创建的Excel</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2656062-5c6db424f277f1e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="create-sheet.png"></p>
+<p>Sheet对象是Workbook对象下的一级对象,代表工作表.而通过上面的程序Demo我们已经可以知道在创建Sheet的时候,要注意的工作表的命名约束.以及如何使用安全的方式创建工作表.</p>
+<h3 id="创建单元格"><a href="#创建单元格" class="headerlink" title="创建单元格"></a>创建单元格</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        Workbook wb = <span class="keyword">new</span> HSSFWorkbook();</div><div class="line">        <span class="comment">//Workbook wb = new XSSFWorkbook();</span></div><div class="line">        CreationHelper createHelper = wb.getCreationHelper();</div><div class="line">        Sheet sheet = wb.createSheet(<span class="string">"new sheet"</span>);</div><div class="line"></div><div class="line">        <span class="comment">// Create a row and put some cells in it. Rows are 0 based.</span></div><div class="line">        Row row = sheet.createRow((<span class="keyword">short</span>)<span class="number">0</span>);</div><div class="line">        <span class="comment">// Create a cell and put a value in it.</span></div><div class="line">        Cell cell = row.createCell(<span class="number">0</span>);</div><div class="line">        cell.setCellValue(<span class="number">1</span>);</div><div class="line"></div><div class="line">        <span class="comment">// Or do it on one line.</span></div><div class="line">        row.createCell(<span class="number">1</span>).setCellValue(<span class="number">1.2</span>);</div><div class="line">        row.createCell(<span class="number">2</span>).setCellValue(</div><div class="line">                createHelper.createRichTextString(<span class="string">"This is a string"</span>));</div><div class="line">        row.createCell(<span class="number">3</span>).setCellValue(<span class="keyword">true</span>);</div><div class="line"></div><div class="line">        <span class="comment">// Write the output to a file</span></div><div class="line">        FileOutputStream fileOut = <span class="keyword">new</span> FileOutputStream(<span class="string">"workbook03.xls"</span>);</div><div class="line">        wb.write(fileOut);</div><div class="line">        fileOut.close();</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>打开创建的Excel</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2656062-6d3f1513ec2e8b8e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="create-cell.png"></p>
+<p>通过代码我们可以知道Sheet下一级的对象不是Cell而是Row,而Row的下一级对象是Cell.在部分代码很好理解.我们重点介绍一下这个RichTextString.Excel中的字符串,都会存在一个Table(数组)中,而在解析Excel的时候我们会发现解析到的文本类型的单元格的value是数字,而这个数字实际上就是该文本在RichText Table中的下标.</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>至此,我们了解了POI对Excel操作的UserModel时Dom树的整体结构.如下图<br>而我们在解析Excel的时候,即可按照这种方式,从上到下,对我们需要的数据进行解析.<br><img src="http://upload-images.jianshu.io/upload_images/2656062-3327e4d1558bfad4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="usermodel-domtree.png"></p>
+<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><h3 id="要解析的Excel"><a href="#要解析的Excel" class="headerlink" title="要解析的Excel"></a>要解析的Excel</h3><p><img src="http://upload-images.jianshu.io/upload_images/2656062-e219a41f5500090d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="to-parse.png"></p>
+<h3 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    InputStream inp = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        inp = <span class="keyword">new</span> FileInputStream(<span class="string">"workbook04.xls"</span>);</div><div class="line">        Workbook wb = WorkbookFactory.create(inp);</div><div class="line">        Sheet sheet = wb.getSheetAt(<span class="number">0</span>);</div><div class="line">        Iterator&lt;Row&gt; rowIterator = sheet.rowIterator();</div><div class="line">        <span class="keyword">while</span> (rowIterator.hasNext()) &#123;</div><div class="line">            Row r = rowIterator.next();</div><div class="line">            <span class="keyword">if</span> (r == <span class="keyword">null</span>) &#123;</div><div class="line">                System.out.println(<span class="string">"Empty Row"</span>);</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = r.getFirstCellNum(); i &lt; r.getLastCellNum(); i++) &#123;</div><div class="line">                Cell cell = r.getCell(i);</div><div class="line">                String cellValue = <span class="string">""</span>;</div><div class="line">                <span class="keyword">switch</span> (cell.getCellType()) &#123;</div><div class="line">                    <span class="keyword">case</span> Cell.CELL_TYPE_STRING:</div><div class="line">                        cellValue = cell.getRichStringCellValue().getString();</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    <span class="keyword">case</span> Cell.CELL_TYPE_NUMERIC:</div><div class="line">                        <span class="keyword">if</span> (DateUtil.isCellDateFormatted(cell)) &#123;</div><div class="line">                            cellValue = cell.getDateCellValue().toString();</div><div class="line">                        &#125; <span class="keyword">else</span> &#123;</div><div class="line">                            cellValue = String.valueOf(cell.getNumericCellValue());</div><div class="line">                        &#125;</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    <span class="keyword">case</span> Cell.CELL_TYPE_BOOLEAN:</div><div class="line">                        cellValue = String.valueOf(cell.getBooleanCellValue());</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    <span class="keyword">case</span> Cell.CELL_TYPE_FORMULA:</div><div class="line">                        cellValue = String.valueOf(cell.getCellFormula());</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    <span class="keyword">case</span> Cell.CELL_TYPE_BLANK:</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    <span class="keyword">default</span>:</div><div class="line">                &#125;</div><div class="line">                System.out.println(<span class="string">"CellNum:"</span> + i + <span class="string">" =&gt; CellValue:"</span> + cellValue);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        <span class="keyword">if</span> (inp != <span class="keyword">null</span>) &#123;</div><div class="line">            inp.close();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果"></a>输出结果</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">CellNum:0 =&gt; CellValue:1.0</div><div class="line">CellNum:1 =&gt; CellValue:Sun Jul 16 00:00:00 CST 2017</div><div class="line">CellNum:2 =&gt; CellValue:This is a String</div></pre></td></tr></table></figure>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>使用WorkbookFactory来创建Workbook.从而不引入具体的Workbook实现.达到解耦的效果</li>
+<li>遍历Row和Cell的时候既可以使用Iterator,也可以使用for循环的方式.其中实际有数据的是获取到的最后一行(或一列)的前一行(一列)</li>
+<li>针对不同类型的CellType,取值方式并不相同.要使用恰当的方式.</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇文章作为Excel解析的第一篇,对POI进行了简单的介绍.然后通过几个简单小例子对POI的UserModel进行了分析与讲解.总体来说,UserModel方式解析Excel比较简单.但是作为代价,这种方式对内存的占用是不小的.这也是我们在对技术选型时要考虑的因素.</p>
+<p>本文只作为Excel解析的入门,并不能涉及UserModel的方方面面,更多内容还需要去官网查看Demo进行学习.而使用文档进行学习也是程序员的必备技能之一.需要我们不断的训练自己这方面的能力.</p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p>《<a href="http://poi.apache.org/spreadsheet/quick-guide.html" target="_blank" rel="external">Busy Developers’ Guide to HSSF and XSSF Features</a>》</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/POI/" rel="tag">POI</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/11/应对复杂筛选逻辑/" rel="next" title="应对复杂筛选逻辑">
+                <i class="fa fa-chevron-left"></i> 应对复杂筛选逻辑
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/21/Java POI操作Excel(Event Model)/" rel="prev" title="Java POI 操作Excel(Event Model)">
+                Java POI 操作Excel(Event Model) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/07/09/Java POI操作Excel(User Model)/"
+           data-title="Java POI 操作Excel(User Model)" data-url="http://www.lilongjie.com/2017/07/09/Java POI操作Excel(User Model)/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ohps7jj0d.bkt.clouddn.com/hdImg_b8686ed3f0146d75d0f6a2184ca08fe115058132891.jpg"
+               alt="longjie" />
+          <p class="site-author-name" itemprop="name">longjie</p>
+          <p class="site-description motion-element" itemprop="description">优秀是一种习惯</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005056032072811" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/longjieli" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#POI简介"><span class="nav-number">2.</span> <span class="nav-text">POI简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#POI-UserModel"><span class="nav-number">3.</span> <span class="nav-text">POI UserModel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#POI-官网Demo"><span class="nav-number">4.</span> <span class="nav-text">POI 官网Demo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速入门"><span class="nav-number">5.</span> <span class="nav-text">快速入门</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#开发环境"><span class="nav-number">5.1.</span> <span class="nav-text">开发环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个工作簿-Workbook"><span class="nav-number">5.2.</span> <span class="nav-text">创建一个工作簿(Workbook)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个工作表-sheet"><span class="nav-number">5.3.</span> <span class="nav-text">创建一个工作表(sheet)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建单元格"><span class="nav-number">5.4.</span> <span class="nav-text">创建单元格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">5.5.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析"><span class="nav-number">6.</span> <span class="nav-text">解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#要解析的Excel"><span class="nav-number">6.1.</span> <span class="nav-text">要解析的Excel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编码"><span class="nav-number">6.2.</span> <span class="nav-text">编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出结果"><span class="nav-number">6.3.</span> <span class="nav-text">输出结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结-1"><span class="nav-number">6.4.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文档"><span class="nav-number">8.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  人丑就要多读书&copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  <a class="theme-link" href="http://www.miibeian.gov.cn/">
+    京ICP备16059150号
+  </a>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+</div>
+<div class="theme-info">
+  <a class="theme-link" href="http://www.beian.gov.cn/">
+     京公网安备11011302001239
+   </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lilongjie"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RIaV5TGmetLiYCLnCaiW6yyh-gzGzoHsz", "npfj7UDwEmHNxVsMu9mIqu5O");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+
+</body>
+</html>

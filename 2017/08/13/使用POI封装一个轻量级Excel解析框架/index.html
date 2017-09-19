@@ -1,0 +1,855 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="-OdrQHCbeUb03hv7XThVR0jFYa_a2UXlAPfEmeuYhck" />
+
+
+
+
+  <meta name="baidu-site-verification" content="w2otIZ1Zxz" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="POI," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="My POI FrameWork">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用POI封装一个轻量级Excel解析框架">
+<meta property="og:url" content="http://www.lilongjie.com/2017/08/13/使用POI封装一个轻量级Excel解析框架/index.html">
+<meta property="og:site_name" content="Longjie">
+<meta property="og:description" content="My POI FrameWork">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-cbe43874ae2ec5a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-09-19T09:17:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用POI封装一个轻量级Excel解析框架">
+<meta name="twitter:description" content="My POI FrameWork">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2656062-cbe43874ae2ec5a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.lilongjie.com/2017/08/13/使用POI封装一个轻量级Excel解析框架/"/>
+
+
+
+
+
+  <title> 使用POI封装一个轻量级Excel解析框架 | Longjie </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260964314&web_id=1260964314" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Longjie</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">everything comes full circle</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://www.lilongjie.com/2017/08/13/使用POI封装一个轻量级Excel解析框架/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="longjie">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ohps7jj0d.bkt.clouddn.com/hdImg_b8686ed3f0146d75d0f6a2184ca08fe115058132891.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Longjie">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Longjie" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用POI封装一个轻量级Excel解析框架
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-13T09:09:02+08:00">
+                2017-08-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/08/13/使用POI封装一个轻量级Excel解析框架/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/08/13/使用POI封装一个轻量级Excel解析框架/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/08/13/使用POI封装一个轻量级Excel解析框架/" class="leancloud_visitors" data-flag-title="使用POI封装一个轻量级Excel解析框架">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>My POI FrameWork</p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>通过前面的三篇文章,我们已经对POI解析Excel有了不错的理解.这篇文章,我们就来自己封装一个Excel解析框架.</p>
+<p>那为什么要自己做一个解析框架?这个问题的本质,我觉得应该从个人的商业模式讲起.</p>
+<p>我们每天去工作,赚取工资,本质上是在用我们只去不回的时间和注意力来换取金钱.那如果我们想提升我们获取的回报,显而易见的方式就是<strong>提升时薪</strong>.而除此之外,还有一个升级的办法,那就是把一份时间卖出很多份.比如畅销书的作家,写一本书.时间只用了一次,但是却可以在写完之后仍然在产生回报.</p>
+<p>那作为程序员,我们能否也使用这种思路去解决工作中的问题呢,当然可以,比如说,我们今天要做的,封装一个Excel解析框架就是这样一种思路.在我们可预期的后续工作中,Excel导入数据这种功能肯定是还会再写的.但是如果这次写完,下次遇到我还是去查资料,重新写.那不仅仅是重复劳动.这次遇到的坑,下次可能会难免再踩一些.而如果我们在这一次封装了自己的库.下次再遇到,我们可以直接使用.不仅可以节约时间,也不会踩到同样的坑.所以,让我们开始行动吧~</p>
+<h2 id="分析需求"><a href="#分析需求" class="headerlink" title="分析需求"></a>分析需求</h2><p>在我们的工作中,对于Excel上传,我们会遇到的场景一般是把上传来的Excel进行解析,组装成一个对象,然后校验数据,转成Po,导入数据库.而这个流程中,我们的Excel解析框架要做的事情,实际上就是<strong>解析Excel和组装对象</strong>.我们希望我们只用一点点的代码,就可以把Excel解析完,并且可以自由选择使用Dom方式解析还是Sax方式.甚至希望可以不知道上传的Excel的版本.</p>
+<h2 id="接口定义"><a href="#接口定义" class="headerlink" title="接口定义"></a>接口定义</h2><p>提供解析功能的接口,可以理解为是一个门面(Facade).<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public interface IExcelParser&lt;T&gt; &#123;</div><div class="line">    List&lt;T&gt; parse(IParserParam parserParam);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>关于解析方法的参数规范.<br>上传的过程中,我们需要Excel的流,要解析完成后组装的对象的类型,Excel中有多少列的数据.要解析的Sheet,以及表头数据.</p>
+<p>由于Excel是外部通过上传,所以一般情况下,我们会对表头数据进行校验.来达到功能的收敛,防止误操作,对系统造成影响.当然如果不想校验,在我们的解析框架中,也应该是支持的.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IParserParam</span> </span>&#123;</div><div class="line"></div><div class="line">    Integer FIRST_SHEET = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="function">InputStream <span class="title">getExcelInputStream</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function">Class <span class="title">getTargetClass</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function">Integer <span class="title">getColumnSize</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function">Integer <span class="title">getSheetNum</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function">List&lt;String&gt; <span class="title">getHeader</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="整体设计"><a href="#整体设计" class="headerlink" title="整体设计"></a>整体设计</h2><p><img src="http://upload-images.jianshu.io/upload_images/2656062-cbe43874ae2ec5a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类图"></p>
+<p>IExcelParseHandler接口提供具体的解析服务.对上层的Parser屏蔽解析细节.</p>
+<h2 id="客户端代码"><a href="#客户端代码" class="headerlink" title="客户端代码"></a>客户端代码</h2><p>我们从调用端的代码进行分析,来达到管中规豹的效果.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"> <span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDomXlsx</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">    parser = <span class="keyword">new</span> ExcelDomParser&lt;&gt;();</div><div class="line"></div><div class="line">    IParserParam parserParam = DefaultParserParam.builder()</div><div class="line">            .excelInputStream(Thread.currentThread().getContextClassLoader()</div><div class="line">                    .getResourceAsStream(<span class="string">"test01.xlsx"</span>))</div><div class="line">            .columnSize(<span class="number">4</span>)</div><div class="line">            .sheetNum(IParserParam.FIRST_SHEET)</div><div class="line">            .targetClass(User.class)</div><div class="line">            .header(User.getHeader())</div><div class="line">            .build();</div><div class="line"></div><div class="line">    List&lt;User&gt; user = parser.parse(parserParam);</div><div class="line">    System.out.println(user);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>User类:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@ExcelField</span>(index = <span class="number">0</span>)</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="meta">@ExcelField</span>(index = <span class="number">1</span>)</div><div class="line">    <span class="keyword">private</span> String age;</div><div class="line">    <span class="meta">@ExcelField</span>(index = <span class="number">2</span>)</div><div class="line">    <span class="keyword">private</span> String gender;</div><div class="line">    <span class="meta">@ExcelField</span>(index = <span class="number">3</span>, type = ExcelField.ExcelFieldType.Date)</div><div class="line">    <span class="keyword">private</span> String dateStr;</div></pre></td></tr></table></figure></p>
+<p>客户端代码十分简单,我们只需要组装一个IParserParam的默认对象,DefaultParserParam.然后传入到Parser中即可解析完成.</p>
+<p>再看看User类.User类的字段上出现了ExcelField注解.我们都知道要想把一行数据转成对象,使用反射是最简单的方式,所以ExcelField就是对应字段和在Excel中的列数使用.</p>
+<p>至于为什么字段都定义为String,因为后续还要转对象为Po.在Excel上传解析这个地方使用String类型最为方便.</p>
+<h2 id="线程安全问题"><a href="#线程安全问题" class="headerlink" title="线程安全问题"></a>线程安全问题</h2><p>在Web项目中使用我们的框架,必然是要与Spring进行整合.在整合的时候Spring会默认给我们创建单例的解析类.而我们要做的就是保证这个单例的解析类不会存在线程安全问题.那这是怎么实现的呢.</p>
+<p>我们先来看下dom解析的方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExcelDomParser</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractExcelParser</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> IExcelParseHandler&lt;T&gt; excelParseHandler;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ExcelDomParser</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.excelParseHandler = <span class="keyword">new</span> ExcelDomParseHandler&lt;&gt;();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> IExcelParseHandler&lt;T&gt; <span class="title">createHandler</span><span class="params">(InputStream excelInputStream)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.excelParseHandler;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面是上层DomParser的代码,根据代码我们可以发现,excelParseHandler是成员变量.一直都是使用的一个.那接下来我们再看一下DomparseHandler的实现.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExcelDomParseHandler</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">BaseExcelParseHandler</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;T&gt; <span class="title">process</span><span class="params">(IParserParam parserParam)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        Workbook workbook = generateWorkBook(parserParam);</div><div class="line">        Sheet sheet = workbook.getSheetAt(parserParam.getSheetNum());</div><div class="line">        Iterator&lt;Row&gt; rowIterator = sheet.rowIterator();</div><div class="line">        <span class="keyword">if</span> (parserParam.getHeader() != <span class="keyword">null</span> &amp;&amp; parserParam.getHeader().size() != <span class="number">0</span>) &#123;</div><div class="line">            checkHeader(rowIterator, parserParam);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> parseRowToTargetList(rowIterator, parserParam);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">checkHeader</span><span class="params">(Iterator&lt;Row&gt; rowIterator, IParserParam parserParam)</span> </span>&#123;</div><div class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</div><div class="line">            Row row = rowIterator.next();</div><div class="line">            List&lt;String&gt; rowData = parseRowToList(row, parserParam.getColumnSize());</div><div class="line">            <span class="keyword">boolean</span> empty = isRowDataEmpty(rowData);</div><div class="line">            <span class="keyword">if</span> (!empty) &#123;</div><div class="line">                validHeader(parserParam, rowData);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> Workbook <span class="title">generateWorkBook</span><span class="params">(IParserParam parserParam)</span> <span class="keyword">throws</span> IOException, InvalidFormatException </span>&#123;</div><div class="line">        <span class="keyword">return</span> WorkbookFactory.create(parserParam.getExcelInputStream());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> List&lt;T&gt; <span class="title">parseRowToTargetList</span><span class="params">(Iterator&lt;Row&gt; rowIterator, IParserParam parserParam)</span> <span class="keyword">throws</span> InstantiationException, IllegalAccessException </span>&#123;</div><div class="line">        List&lt;T&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (; rowIterator.hasNext(); ) &#123;</div><div class="line">            Row row = rowIterator.next();</div><div class="line">            List&lt;String&gt; rowData = parseRowToList(row, parserParam.getColumnSize());</div><div class="line">            Optional&lt;T&gt; d = parseRowToTarget(parserParam, rowData);</div><div class="line">            d.ifPresent(result::add);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> List&lt;String&gt; <span class="title">parseRowToList</span><span class="params">(Row row, <span class="keyword">int</span> size)</span> </span>&#123;</div><div class="line">        List&lt;String&gt; dataRow = <span class="keyword">new</span> ArrayList&lt;&gt;(size);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</div><div class="line">            <span class="keyword">if</span> (row.getCell(i) != <span class="keyword">null</span>) &#123;</div><div class="line">                DataFormatter formatter = <span class="keyword">new</span> DataFormatter();</div><div class="line">                String formattedCellValue = formatter.formatCellValue(row.getCell(i));</div><div class="line">                dataRow.add(formattedCellValue.trim());</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                dataRow.add(<span class="string">""</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> dataRow;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们通过代码看到DomParseHandler本身没有使用任何的成员变量,而父类BaseExcelParseHandler中存在的一个成员变量head,也没有在这个类中使用.所以这个类在多线程环境下是安全的.不会存在问题.</p>
+<p>接下来我们看一下Sax解析的Parser</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExcelSaxParser</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractExcelParser</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> IExcelParseHandler&lt;T&gt; <span class="title">createHandler</span><span class="params">(InputStream excelInputStream)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">byte</span>[] header8 = IOUtils.peekFirst8Bytes(excelInputStream);</div><div class="line">            <span class="keyword">if</span> (NPOIFSFileSystem.hasPOIFSHeader(header8)) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">new</span> Excel2003ParseHandler&lt;&gt;();</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (DocumentFactoryHelper.hasOOXMLHeader(excelInputStream)) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">new</span> Excel2007ParseHandler&lt;&gt;();</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Your InputStream was neither an OLE2 stream, nor an OOXML stream"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            logger.error(<span class="string">"getParserInstance Error!"</span>, e);</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过代码,我们发现,每次都会创建一个新的Handler,并且根据不同判断使用不同的Handler.这种方式在多线程环境下也不会存在问题.可以使用Spring的单例进行管理</p>
+<h2 id="与Spring整合"><a href="#与Spring整合" class="headerlink" title="与Spring整合"></a>与Spring整合</h2><p>使用Dom方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;bean id = <span class="string">"excelParser"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"com.snakotech.excelhelper.ExcelDomparser"</span>&gt;</div><div class="line"></div><div class="line"><span class="meta">@Autowire</span></div><div class="line"><span class="keyword">private</span> IExcelParser excelParser;</div></pre></td></tr></table></figure>
+<p>使用Sax方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;bean id = <span class="string">"excelParser"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"com.snakotech.excelhelper.ExcelSaxparser"</span>&gt;</div><div class="line"></div><div class="line"><span class="meta">@Autowire</span></div><div class="line"><span class="keyword">private</span> IExcelParser excelParser;</div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于代码比较多,所以不能面面俱到的讲解所有的细节,但是看完整篇文章,相信你对如何封装也有了一定的想法,可以去尝试着实现属于你自己的Excel解析框架.在做的过程中,相信你一定获益匪浅</p>
+<h2 id="全量代码"><a href="#全量代码" class="headerlink" title="全量代码"></a>全量代码</h2><blockquote>
+<p><a href="https://github.com/amlongjie/ExcelParser" target="_blank" rel="external">https://github.com/amlongjie/ExcelParser</a></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/POI/" rel="tag">POI</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/27/Java POI操作Excel(Event User Model)/" rel="next" title="Java POI 操作Excel(Event User Model)">
+                <i class="fa fa-chevron-left"></i> Java POI 操作Excel(Event User Model)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/16/六步搞定Git多账号配置/" rel="prev" title="六步搞定Git多账号配置">
+                六步搞定Git多账号配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/08/13/使用POI封装一个轻量级Excel解析框架/"
+           data-title="使用POI封装一个轻量级Excel解析框架" data-url="http://www.lilongjie.com/2017/08/13/使用POI封装一个轻量级Excel解析框架/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ohps7jj0d.bkt.clouddn.com/hdImg_b8686ed3f0146d75d0f6a2184ca08fe115058132891.jpg"
+               alt="longjie" />
+          <p class="site-author-name" itemprop="name">longjie</p>
+          <p class="site-description motion-element" itemprop="description">优秀是一种习惯</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005056032072811" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/longjieli" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析需求"><span class="nav-number">2.</span> <span class="nav-text">分析需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口定义"><span class="nav-number">3.</span> <span class="nav-text">接口定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整体设计"><span class="nav-number">4.</span> <span class="nav-text">整体设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端代码"><span class="nav-number">5.</span> <span class="nav-text">客户端代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程安全问题"><span class="nav-number">6.</span> <span class="nav-text">线程安全问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与Spring整合"><span class="nav-number">7.</span> <span class="nav-text">与Spring整合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全量代码"><span class="nav-number">9.</span> <span class="nav-text">全量代码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  人丑就要多读书&copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  <a class="theme-link" href="http://www.miibeian.gov.cn/">
+    京ICP备16059150号
+  </a>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+</div>
+<div class="theme-info">
+  <a class="theme-link" href="http://www.beian.gov.cn/">
+     京公网安备11011302001239
+   </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lilongjie"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RIaV5TGmetLiYCLnCaiW6yyh-gzGzoHsz", "npfj7UDwEmHNxVsMu9mIqu5O");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+
+</body>
+</html>

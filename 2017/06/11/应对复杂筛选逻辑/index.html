@@ -1,0 +1,845 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="-OdrQHCbeUb03hv7XThVR0jFYa_a2UXlAPfEmeuYhck" />
+
+
+
+
+  <meta name="baidu-site-verification" content="w2otIZ1Zxz" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="业务代码," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="你的工具箱里,需要这个锤子.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="应对复杂筛选逻辑">
+<meta property="og:url" content="http://www.lilongjie.com/2017/06/11/应对复杂筛选逻辑/index.html">
+<meta property="og:site_name" content="Longjie">
+<meta property="og:description" content="你的工具箱里,需要这个锤子.">
+<meta property="og:updated_time" content="2017-09-19T08:59:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="应对复杂筛选逻辑">
+<meta name="twitter:description" content="你的工具箱里,需要这个锤子.">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.lilongjie.com/2017/06/11/应对复杂筛选逻辑/"/>
+
+
+
+
+
+  <title> 应对复杂筛选逻辑 | Longjie </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260964314&web_id=1260964314" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Longjie</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">everything comes full circle</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://www.lilongjie.com/2017/06/11/应对复杂筛选逻辑/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="longjie">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ohps7jj0d.bkt.clouddn.com/hdImg_b8686ed3f0146d75d0f6a2184ca08fe115058132891.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Longjie">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Longjie" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                应对复杂筛选逻辑
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-11T22:17:05+08:00">
+                2017-06-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/06/11/应对复杂筛选逻辑/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/11/应对复杂筛选逻辑/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/06/11/应对复杂筛选逻辑/" class="leancloud_visitors" data-flag-title="应对复杂筛选逻辑">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>你的工具箱里,需要这个锤子.</p>
+<a id="more"></a>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有这样一种需求,要在一个列表的数据中进行筛选.筛选规则和筛选优先级时常改变(不得不吐槽产品同学才华横溢,富有创意).如果不采取合适的方案去应对,而且你的代码功力又不是很强,那很可能每周加班是你的宿命了.</p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>假设现在有一个产品类,属性如下,有类型,有单价,有让利三个字段.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> lombok.AllArgsConstructor;</div><div class="line"><span class="keyword">import</span> lombok.Getter;</div><div class="line"><span class="keyword">import</span> lombok.Setter;</div><div class="line"></div><div class="line"><span class="meta">@Getter</span></div><div class="line"><span class="meta">@Setter</span></div><div class="line"><span class="meta">@AllArgsConstructor</span></div><div class="line"><span class="meta">@ToString</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Product</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String type;</div><div class="line">    <span class="keyword">private</span> String price;</div><div class="line">    <span class="keyword">private</span> String benefit;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>产品类型有AB两种,产品A的优先级大于B,当产品的优先级一致时,价格低的优先级更高,当价格一致时,让利大的优先级更高.现在给你一个列表的数据,你要筛选出优先级最高的数据,如果有多个,就取第一个.我们看看有几种解决方案.</p>
+<h2 id="方案一-硬撸"><a href="#方案一-硬撸" class="headerlink" title="方案一:硬撸"></a>方案一:硬撸</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo01</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Product p1 = <span class="keyword">new</span> Product(<span class="string">"A"</span>, <span class="number">10</span>, <span class="number">5</span>);</div><div class="line">        Product p2 = <span class="keyword">new</span> Product(<span class="string">"A"</span>, <span class="number">10</span>, <span class="number">6</span>);</div><div class="line">        Product p3 = <span class="keyword">new</span> Product(<span class="string">"B"</span>, <span class="number">10</span>, <span class="number">6</span>);</div><div class="line">        Product p4 = <span class="keyword">new</span> Product(<span class="string">"B"</span>, <span class="number">9</span>, <span class="number">6</span>);</div><div class="line">        Product p5 = <span class="keyword">new</span> Product(<span class="string">"A"</span>, <span class="number">10</span>, <span class="number">6</span>);</div><div class="line">        List&lt;Product&gt; productList = Lists.newArrayList(p1, p2, p3, p4, p5);</div><div class="line"></div><div class="line">        Product resultProduct = <span class="keyword">new</span> Product(<span class="string">"B"</span>, Integer.MAX_VALUE, Integer.MAX_VALUE);</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (Product product : productList) &#123;</div><div class="line">            <span class="comment">// A 和 B 比较.A更小</span></div><div class="line">            <span class="keyword">if</span> (product.getType().compareTo(resultProduct.getType()) &lt; <span class="number">0</span>) &#123;</div><div class="line">                resultProduct = product;</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (product.getType().equals(resultProduct.getType())) &#123;</div><div class="line">                <span class="comment">// 选择价格低的</span></div><div class="line">                <span class="keyword">if</span> (product.getPrice() &lt; resultProduct.getPrice()) &#123;</div><div class="line">                    resultProduct = product;</div><div class="line">                    <span class="keyword">continue</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (product.getPrice().intValue() == resultProduct.getPrice().intValue()) &#123;</div><div class="line">                    <span class="comment">// 选择让利大的</span></div><div class="line">                    <span class="keyword">if</span> (product.getBenefit() &gt; resultProduct.getBenefit()) &#123;</div><div class="line">                        resultProduct = product;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.println(resultProduct);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在这种仅仅只有三个筛选条件的情况,这种方式的代码已经十分臃肿,而且,如果维护这份代码,在需求频繁更改的情况下是极其容易出错的.更何况生产环境只会更复杂.当然你可以选择把他们抽成一个方法.然后写单元测试.但是后期维护工作依然巨大.</p>
+<h2 id="方案二-使用List的sort方法进行排序"><a href="#方案二-使用List的sort方法进行排序" class="headerlink" title="方案二: 使用List的sort方法进行排序"></a>方案二: 使用List的sort方法进行排序</h2><p>使用List.sort方法.传入Compartor对象,随后取出排序后的第一个元素.代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo02</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Product p1 = <span class="keyword">new</span> Product(<span class="string">"A"</span>, <span class="number">10</span>, <span class="number">5</span>);</div><div class="line">        Product p2 = <span class="keyword">new</span> Product(<span class="string">"A"</span>, <span class="number">10</span>, <span class="number">6</span>);</div><div class="line">        Product p3 = <span class="keyword">new</span> Product(<span class="string">"B"</span>, <span class="number">10</span>, <span class="number">6</span>);</div><div class="line">        Product p4 = <span class="keyword">new</span> Product(<span class="string">"B"</span>, <span class="number">9</span>, <span class="number">6</span>);</div><div class="line">        Product p5 = <span class="keyword">new</span> Product(<span class="string">"A"</span>, <span class="number">10</span>, <span class="number">6</span>);</div><div class="line">        List&lt;Product&gt; productList = Lists.newArrayList(p1, p2, p3, p4, p5);</div><div class="line">        productList.sort((pro1, pro2) -&gt; &#123;</div><div class="line">            <span class="keyword">if</span> (pro1.getType().compareTo(pro2.getType()) &lt; <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (pro1.getType().equals(pro2.getType())) &#123;</div><div class="line">                <span class="keyword">if</span> (pro1.getPrice() &lt; pro2.getPrice()) &#123;</div><div class="line">                    <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (pro1.getPrice().intValue() == pro2.getPrice().intValue()) &#123;</div><div class="line">                    <span class="keyword">return</span> pro2.getBenefit() - pro1.getBenefit();</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">        &#125;);</div><div class="line">        System.out.println(productList.get(<span class="number">0</span>));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这种方式本质上和上面的方案一差不多,应对变化的能力差.但也是这种情况下常见的解决方案.</p>
+<h2 id="方案三-责任链"><a href="#方案三-责任链" class="headerlink" title="方案三:责任链"></a>方案三:责任链</h2><p>上面的两种方案,本质上来说都是面向过程的开发方式.在这个场景下,实际上我们就是在进行一个操作:<strong>过滤</strong>.所以我们可以给过滤这个动作建模,然后针对各种不同的过滤条件进行实现.通过组装各种过滤实现达到扩展和调整的目标.实现如下:</p>
+<p>给过滤动作建模:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IFilter</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">    <span class="function">List&lt;T&gt; <span class="title">filter</span><span class="params">(List&lt;T&gt; data)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>实现按类型筛选的过滤器:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TypeFilter</span> <span class="keyword">implements</span> <span class="title">IFilter</span>&lt;<span class="title">Product</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Ordering&lt;Product&gt; ordering = <span class="keyword">new</span> Ordering&lt;Product&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Product product, Product t1)</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> product.getType().compareTo(t1.getType());</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;Product&gt; <span class="title">filter</span><span class="params">(List&lt;Product&gt; data)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (CollectionUtils.isEmpty(data)) <span class="keyword">return</span> data;</div><div class="line">        <span class="keyword">if</span> (data.size() == <span class="number">1</span>) <span class="keyword">return</span> data;</div><div class="line"></div><div class="line">        List&lt;Product&gt; result = Lists.newArrayList();</div><div class="line">        List&lt;Product&gt; sortResult = ordering.sortedCopy(data);</div><div class="line"></div><div class="line">        String type = sortResult.get(<span class="number">0</span>).getType();</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (Product product : sortResult) &#123;</div><div class="line">            <span class="keyword">if</span> (type.equals(product.getType())) &#123;</div><div class="line">                result.add(product);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>按价格筛选的过滤器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PriceFilter</span> <span class="keyword">implements</span> <span class="title">IFilter</span>&lt;<span class="title">Product</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Ordering&lt;Product&gt; ordering = <span class="keyword">new</span> Ordering&lt;Product&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Product product, Product t1)</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> product.getPrice() - t1.getPrice();</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;Product&gt; <span class="title">filter</span><span class="params">(List&lt;Product&gt; data)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (CollectionUtils.isEmpty(data)) <span class="keyword">return</span> data;</div><div class="line">        <span class="keyword">if</span> (data.size() == <span class="number">1</span>) <span class="keyword">return</span> data;</div><div class="line"></div><div class="line">        List&lt;Product&gt; result = Lists.newArrayList();</div><div class="line">        List&lt;Product&gt; sortResult = ordering.sortedCopy(data);</div><div class="line"></div><div class="line">        <span class="keyword">int</span> price = sortResult.get(<span class="number">0</span>).getPrice();</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (Product product : sortResult) &#123;</div><div class="line">            <span class="keyword">if</span> (price == product.getPrice()) &#123;</div><div class="line">                result.add(product);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>按让利筛选的过滤器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BenefitFilter</span> <span class="keyword">implements</span> <span class="title">IFilter</span>&lt;<span class="title">Product</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Ordering&lt;Product&gt; ordering = <span class="keyword">new</span> Ordering&lt;Product&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Product product, Product t1)</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> t1.getBenefit() - product.getBenefit();</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;Product&gt; <span class="title">filter</span><span class="params">(List&lt;Product&gt; data)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (CollectionUtils.isEmpty(data)) <span class="keyword">return</span> data;</div><div class="line">        <span class="keyword">if</span> (data.size() == <span class="number">1</span>) <span class="keyword">return</span> data;</div><div class="line"></div><div class="line">        List&lt;Product&gt; result = Lists.newArrayList();</div><div class="line">        List&lt;Product&gt; sortResult = ordering.sortedCopy(data);</div><div class="line"></div><div class="line">        <span class="keyword">int</span> benefit = sortResult.get(<span class="number">0</span>).getBenefit();</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (Product product : sortResult) &#123;</div><div class="line">            <span class="keyword">if</span> (benefit == product.getBenefit()) &#123;</div><div class="line">                result.add(product);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>客户端代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo03</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">        Product p1 = <span class="keyword">new</span> Product(<span class="string">"A"</span>, <span class="number">10</span>, <span class="number">5</span>);</div><div class="line">        Product p2 = <span class="keyword">new</span> Product(<span class="string">"A"</span>, <span class="number">10</span>, <span class="number">6</span>);</div><div class="line">        Product p3 = <span class="keyword">new</span> Product(<span class="string">"B"</span>, <span class="number">10</span>, <span class="number">6</span>);</div><div class="line">        Product p4 = <span class="keyword">new</span> Product(<span class="string">"B"</span>, <span class="number">9</span>, <span class="number">6</span>);</div><div class="line">        Product p5 = <span class="keyword">new</span> Product(<span class="string">"A"</span>, <span class="number">10</span>, <span class="number">6</span>);</div><div class="line">        List&lt;Product&gt; productList = Lists.newArrayList(p1, p2, p3, p4, p5);</div><div class="line"></div><div class="line">        List&lt;IFilter&lt;Product&gt;&gt; filterChain = Lists.newArrayList(</div><div class="line">                <span class="keyword">new</span> TypeFilter(), <span class="keyword">new</span> PriceFilter(), <span class="keyword">new</span> BenefitFilter()</div><div class="line">        );</div><div class="line"></div><div class="line">        <span class="keyword">for</span>(IFilter&lt;Product&gt; filter : filterChain)&#123;</div><div class="line">            productList = filter.filter(productList);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        System.out.println(productList.get(<span class="number">0</span>));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用这种方式似乎代码量更多,但是扩展性和维护性上都有了质的提升.</p>
+<h3 id="加规则"><a href="#加规则" class="headerlink" title="加规则"></a>加规则</h3><p>只需要写一个IFilter的实现类,并在FilterChain上放到一个合适的位置即可.</p>
+<h3 id="不加规则-调整权重"><a href="#不加规则-调整权重" class="headerlink" title="不加规则,调整权重"></a>不加规则,调整权重</h3><p>只需要修改FilterChain上的位置即可.</p>
+<h2 id="还能做的更好吗"><a href="#还能做的更好吗" class="headerlink" title="还能做的更好吗?"></a>还能做的更好吗?</h2><p>可以针对产品的需求将所有的Filter实现类都实例化,做成配置,接入到公司的配置管理系统.产品在已有规则下的权重调整只需要在配置系统中修改即可,不需要重新修改代码,编译,部署.这样下来,你还需要加班吗?</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/业务代码/" rel="tag">业务代码</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/30/分布式应用于一致性哈希/" rel="next" title="分布式应用于一致性哈希">
+                <i class="fa fa-chevron-left"></i> 分布式应用于一致性哈希
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/09/Java POI操作Excel(User Model)/" rel="prev" title="Java POI 操作Excel(User Model)">
+                Java POI 操作Excel(User Model) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/06/11/应对复杂筛选逻辑/"
+           data-title="应对复杂筛选逻辑" data-url="http://www.lilongjie.com/2017/06/11/应对复杂筛选逻辑/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ohps7jj0d.bkt.clouddn.com/hdImg_b8686ed3f0146d75d0f6a2184ca08fe115058132891.jpg"
+               alt="longjie" />
+          <p class="site-author-name" itemprop="name">longjie</p>
+          <p class="site-description motion-element" itemprop="description">优秀是一种习惯</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005056032072811" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/longjieli" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景"><span class="nav-number">2.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方案一-硬撸"><span class="nav-number">3.</span> <span class="nav-text">方案一:硬撸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方案二-使用List的sort方法进行排序"><span class="nav-number">4.</span> <span class="nav-text">方案二: 使用List的sort方法进行排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方案三-责任链"><span class="nav-number">5.</span> <span class="nav-text">方案三:责任链</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#加规则"><span class="nav-number">5.1.</span> <span class="nav-text">加规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不加规则-调整权重"><span class="nav-number">5.2.</span> <span class="nav-text">不加规则,调整权重</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#还能做的更好吗"><span class="nav-number">6.</span> <span class="nav-text">还能做的更好吗?</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  人丑就要多读书&copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  <a class="theme-link" href="http://www.miibeian.gov.cn/">
+    京ICP备16059150号
+  </a>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+</div>
+<div class="theme-info">
+  <a class="theme-link" href="http://www.beian.gov.cn/">
+     京公网安备11011302001239
+   </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lilongjie"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RIaV5TGmetLiYCLnCaiW6yyh-gzGzoHsz", "npfj7UDwEmHNxVsMu9mIqu5O");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,874 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="-OdrQHCbeUb03hv7XThVR0jFYa_a2UXlAPfEmeuYhck" />
+
+
+
+
+  <meta name="baidu-site-verification" content="w2otIZ1Zxz" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="POI," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="POI Event Model">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java POI 操作Excel(Event Model)">
+<meta property="og:url" content="http://www.lilongjie.com/2017/07/21/Java POI操作Excel(Event Model)/index.html">
+<meta property="og:site_name" content="Longjie">
+<meta property="og:description" content="POI Event Model">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-622ecf4663d326d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-4d61e12d4c2ca578.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-9e53fd6ccb0f825e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-09-19T09:09:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java POI 操作Excel(Event Model)">
+<meta name="twitter:description" content="POI Event Model">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2656062-622ecf4663d326d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.lilongjie.com/2017/07/21/Java POI操作Excel(Event Model)/"/>
+
+
+
+
+
+  <title> Java POI 操作Excel(Event Model) | Longjie </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260964314&web_id=1260964314" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Longjie</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">everything comes full circle</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://www.lilongjie.com/2017/07/21/Java POI操作Excel(Event Model)/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="longjie">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ohps7jj0d.bkt.clouddn.com/hdImg_b8686ed3f0146d75d0f6a2184ca08fe115058132891.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Longjie">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Longjie" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java POI 操作Excel(Event Model)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-21T21:34:35+08:00">
+                2017-07-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/07/21/Java POI操作Excel(Event Model)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/21/Java POI操作Excel(Event Model)/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/07/21/Java POI操作Excel(Event Model)/" class="leancloud_visitors" data-flag-title="Java POI 操作Excel(Event Model)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>POI Event Model</p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在上一篇文章中,我们不仅对POI有了基本的认识,也学会了使用POI的User model(Dom)的方式进行Excel解析.</p>
+<p>但是这种方式在进行大数据量Excel解析的时候,要一次性的解析完整个Excel.而在我们的系统中,是存在多个用户同时上传的情况,这种情况对内存的压力是很大的.轻则Full GC.严重的话甚至会OOM.</p>
+<p>所以,POI还提供了抽象程度相比User Model更低,但是也更节约内存的方式来解析Excel.也就是今天要整理的Event Model(Sax)的方式.</p>
+<h2 id="xls-amp-xlsx的存储形式"><a href="#xls-amp-xlsx的存储形式" class="headerlink" title="xls &amp; xlsx的存储形式"></a>xls &amp; xlsx的存储形式</h2><p>xls采用的是一种名为BIFF8(BinaryInterchangeFileFormat)的文件格式.而xlsx则是采用OOXML(Office open Xml)的格式存储数据.</p>
+<p>xls格式Excel的数据组织由于使用的是二进制,没找到太直观的方式展示.故不做特殊说明(实际上是没搞明白怎么看)</p>
+<p>xlsx格式Excel则采用Xml来组织数据.所以我们可以很轻易的看到.如下图:</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2656062-622ecf4663d326d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="excel.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2656062-4d61e12d4c2ca578.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="xml.png"></p>
+<p>上面的xml只是sheet1对应的xml.而sheet2则对应另一个xml.</p>
+<h2 id="Event-Model节约内存原理"><a href="#Event-Model节约内存原理" class="headerlink" title="Event Model节约内存原理"></a>Event Model节约内存原理</h2><p>User Model的缺点是一次性将文件读入内存,构建一颗Dom树.并且在POI对Excel的抽象中,每一行,每一个单元格都是一个对象.当文件大,数据量多的时候对内存的占用可想而知.</p>
+<p>Event Model使用的方式是边读取边解析,并且不会将这些数据封装成Row,Cell这样的对象.而都只是普通的数字或者是字符串.并且这些解析出来的对象是不需要一直驻留在内存中,而是解析完使用后就可以回收.</p>
+<p>所以相比于User Model,Event Model更节省内存.效率也更高.但是作为代价,相比User Model功能更少.门槛也要高一些.</p>
+<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>关于解析代码,使用POI官网提供的代码.并做一些局部的修改来达到学习的目的.</p>
+<blockquote>
+<p><a href="http://poi.apache.org/spreadsheet/how-to.html" target="_blank" rel="external">http://poi.apache.org/spreadsheet/how-to.html</a></p>
+</blockquote>
+<h3 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h3><p>Java版本 ：1.8.0_40<br>Maven版本：3.3.9<br>POI版本 ：3.15</p>
+<h3 id="解析xls"><a href="#解析xls" class="headerlink" title="解析xls"></a>解析xls</h3><p>Excel内容如下图:<br><img src="http://upload-images.jianshu.io/upload_images/2656062-9e53fd6ccb0f825e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="excel_2003.png"></p>
+<p>解析代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReadExcel2003</span> <span class="keyword">implements</span> <span class="title">HSSFListener</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> SSTRecord sstrec;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * This method listens for incoming records and handles them as required.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> record The record that was found while reading.</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processRecord</span><span class="params">(Record record)</span> </span>&#123;</div><div class="line">        <span class="keyword">switch</span> (record.getSid()) &#123;</div><div class="line">            <span class="comment">// the BOFRecord can represent either the beginning of a sheet or the workbook</span></div><div class="line">            <span class="keyword">case</span> BOFRecord.sid:</div><div class="line">                BOFRecord bof = (BOFRecord) record;</div><div class="line">                <span class="keyword">if</span> (bof.getType() == bof.TYPE_WORKBOOK) &#123;</div><div class="line">                    System.out.println(<span class="string">"Encountered workbook"</span>);</div><div class="line">                    <span class="comment">// assigned to the class level member</span></div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (bof.getType() == bof.TYPE_WORKSHEET) &#123;</div><div class="line">                    System.out.println(<span class="string">"Encountered sheet reference"</span>);</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> BoundSheetRecord.sid:</div><div class="line">                BoundSheetRecord bsr = (BoundSheetRecord) record;</div><div class="line">                System.out.println(<span class="string">"New sheet named: "</span> + bsr.getSheetname());</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> RowRecord.sid:</div><div class="line">                RowRecord rowrec = (RowRecord) record;</div><div class="line">                System.out.println(<span class="string">"Row found, first column at "</span></div><div class="line">                        + rowrec.getFirstCol() + <span class="string">" last column at "</span> + rowrec.getLastCol());</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> NumberRecord.sid:</div><div class="line">                NumberRecord numrec = (NumberRecord) record;</div><div class="line">                System.out.println(<span class="string">"Cell found with value "</span> + numrec.getValue()</div><div class="line">                        + <span class="string">" at row "</span> + numrec.getRow() + <span class="string">" and column "</span> + numrec.getColumn());</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="comment">// SSTRecords store a array of unique strings used in Excel.</span></div><div class="line">            <span class="keyword">case</span> SSTRecord.sid:</div><div class="line">                sstrec = (SSTRecord) record;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; sstrec.getNumUniqueStrings(); k++) &#123;</div><div class="line">                    System.out.println(<span class="string">"String table value "</span> + k + <span class="string">" = "</span> + sstrec.getString(k));</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> LabelSSTRecord.sid:</div><div class="line">                LabelSSTRecord lrec = (LabelSSTRecord) record;</div><div class="line">                System.out.println(<span class="string">"String cell found with value "</span></div><div class="line">                        + sstrec.getString(lrec.getSSTIndex()));</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Read an excel file and spit out what we find.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> args Expect one argument that is the file to read.</div><div class="line">     * <span class="doctag">@throws</span> IOException When there is an error processing the file.</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="comment">// create a new file input stream with the input file specified</span></div><div class="line">        <span class="comment">// at the command line</span></div><div class="line">        FileInputStream fin = <span class="keyword">new</span> FileInputStream(<span class="string">"workbook05.xls"</span>);</div><div class="line">        <span class="comment">// create a new org.apache.poi.poifs.filesystem.Filesystem</span></div><div class="line">        POIFSFileSystem poifs = <span class="keyword">new</span> POIFSFileSystem(fin);</div><div class="line">        <span class="comment">// get the Workbook (excel part) stream in a InputStream</span></div><div class="line">        InputStream din = poifs.createDocumentInputStream(<span class="string">"Workbook"</span>);</div><div class="line">        <span class="comment">// construct out HSSFRequest object</span></div><div class="line">        HSSFRequest req = <span class="keyword">new</span> HSSFRequest();</div><div class="line">        <span class="comment">// lazy listen for ALL records with the listener shown above</span></div><div class="line">        req.addListenerForAllRecords(<span class="keyword">new</span> ReadExcel2003());</div><div class="line">        <span class="comment">// create our event factory</span></div><div class="line">        HSSFEventFactory factory = <span class="keyword">new</span> HSSFEventFactory();</div><div class="line">        <span class="comment">// process our events based on the document input stream</span></div><div class="line">        factory.processEvents(req, din);</div><div class="line">        <span class="comment">// once all the events are processed close our file input stream</span></div><div class="line">        fin.close();</div><div class="line">        <span class="comment">// and our document input stream (don't want to leak these!)</span></div><div class="line">        din.close();</div><div class="line">        System.out.println(<span class="string">"done."</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">Encountered workbook</div><div class="line">New sheet named: sheet01</div><div class="line">String table value 0 = This is a String</div><div class="line">Encountered sheet reference</div><div class="line">Row found, first column at 0 last column at 5</div><div class="line">Row found, first column at 0 last column at 5</div><div class="line">Row found, first column at 0 last column at 5</div><div class="line">Cell found with value 1.0 at row 0 and column 0</div><div class="line">Cell found with value 42932.0 at row 0 and column 1</div><div class="line">String cell found with value This is a String</div><div class="line">Cell found with value 42932.0 at row 0 and column 3</div><div class="line">Cell found with value 2.0 at row 1 and column 1</div><div class="line">Cell found with value 42932.0 at row 1 and column 2</div><div class="line">String cell found with value This is a String</div><div class="line">Cell found with value 42932.0 at row 1 and column 4</div><div class="line">Cell found with value 3.0 at row 2 and column 2</div><div class="line">Cell found with value 42932.0 at row 2 and column 3</div><div class="line">String cell found with value This is a String</div><div class="line">done.</div></pre></td></tr></table></figure></p>
+<p>我们实现了HSSFListener接口的processRecord方法来自定义了当我们遇到不同Record之后的操作.</p>
+<p>现在我们的需求就是Event Model要像User Model那种解析出指定Sheet,指定Row,指定Cell的数据.</p>
+<p>我们先来对代码一下小观察：</p>
+<ol>
+<li>只能一次性的解析所有的sheet数据.不能分页解析.(这个功能在Dom解析的时候是有的)</li>
+<li>解析Row中数据的时候,并不会解析空Cell</li>
+<li>先解析了所有的Row,然后才解析了Cell.而不是Row,Cell的嵌套关系.</li>
+<li>但是我们可以获取到Cell对应的行号.</li>
+</ol>
+<p>通过上面的分析,我们就具备了满足前面所说需求的能力.</p>
+<p>具体来说,换页的时候,Cell对应的行号会变成0.我们可以通过这个方案,来判断到了第几个Sheet.</p>
+<p>关于指定的Row数据,我们可以根据判断Cell的行号来判断是否需要解析.</p>
+<p>而具体的Cell数据,我们可以在一开始传入列数.将每一行的数据解析成一个指定大小的List.并且用空字符串填满这个List.在解析过程中,使用Cell的列号去覆盖List指定位置的值,这样.最终的List中就有这一行中包括空值的数据.想要第一列就获取第几列即可.</p>
+<h2 id="解析xlsx"><a href="#解析xlsx" class="headerlink" title="解析xlsx"></a>解析xlsx</h2><p>excel的话,我们仍旧使用上面的,仅仅把格式转换为xlsx.<br>关于代码我们依旧使用官网的demo代码.</p>
+<p>解析代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.poi.openxml4j.opc.OPCPackage;</div><div class="line"><span class="keyword">import</span> org.apache.poi.xssf.eventusermodel.XSSFReader;</div><div class="line"><span class="keyword">import</span> org.apache.poi.xssf.model.SharedStringsTable;</div><div class="line"><span class="keyword">import</span> org.apache.poi.xssf.usermodel.XSSFRichTextString;</div><div class="line"><span class="keyword">import</span> org.xml.sax.*;</div><div class="line"><span class="keyword">import</span> org.xml.sax.helpers.DefaultHandler;</div><div class="line"><span class="keyword">import</span> org.xml.sax.helpers.XMLReaderFactory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.util.Iterator;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReadExcel2007</span> <span class="keyword">extends</span> <span class="title">DefaultHandler</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processOneSheet</span><span class="params">(String filename)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        OPCPackage pkg = OPCPackage.open(filename);</div><div class="line">        XSSFReader r = <span class="keyword">new</span> XSSFReader( pkg );</div><div class="line">        SharedStringsTable sst = r.getSharedStringsTable();</div><div class="line"></div><div class="line">        XMLReader parser = fetchSheetParser(sst);</div><div class="line"></div><div class="line">        <span class="comment">// To look up the Sheet Name / Sheet Order / rID,</span></div><div class="line">        <span class="comment">//  you need to process the core Workbook stream.</span></div><div class="line">        <span class="comment">// Normally it's of the form rId# or rSheet#</span></div><div class="line">        InputStream sheet1 = r.getSheet(<span class="string">"rId1"</span>);</div><div class="line">        InputSource sheetSource = <span class="keyword">new</span> InputSource(sheet1);</div><div class="line">        parser.parse(sheetSource);</div><div class="line">        sheet1.close();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processAllSheets</span><span class="params">(String filename)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        OPCPackage pkg = OPCPackage.open(filename);</div><div class="line">        XSSFReader r = <span class="keyword">new</span> XSSFReader( pkg );</div><div class="line">        SharedStringsTable sst = r.getSharedStringsTable();</div><div class="line"></div><div class="line">        XMLReader parser = fetchSheetParser(sst);</div><div class="line"></div><div class="line">        Iterator&lt;InputStream&gt; sheets = r.getSheetsData();</div><div class="line">        <span class="keyword">while</span>(sheets.hasNext()) &#123;</div><div class="line">            System.out.println(<span class="string">"\nProcessing new sheet:"</span>);</div><div class="line">            InputStream sheet = sheets.next();</div><div class="line">            InputSource sheetSource = <span class="keyword">new</span> InputSource(sheet);</div><div class="line">            parser.parse(sheetSource);</div><div class="line">            sheet.close();</div><div class="line">            System.out.println(<span class="string">""</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> XMLReader <span class="title">fetchSheetParser</span><span class="params">(SharedStringsTable sst)</span> <span class="keyword">throws</span> SAXException </span>&#123;</div><div class="line">        XMLReader parser =</div><div class="line">                XMLReaderFactory.createXMLReader(</div><div class="line">                        <span class="string">"org.apache.xerces.parsers.SAXParser"</span></div><div class="line">                );</div><div class="line">        ContentHandler handler = <span class="keyword">new</span> SheetHandler(sst);</div><div class="line">        parser.setContentHandler(handler);</div><div class="line">        <span class="keyword">return</span> parser;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * See org.xml.sax.helpers.DefaultHandler javadocs</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SheetHandler</span> <span class="keyword">extends</span> <span class="title">DefaultHandler</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> SharedStringsTable sst;</div><div class="line">        <span class="keyword">private</span> String lastContents;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">boolean</span> nextIsString;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">private</span> <span class="title">SheetHandler</span><span class="params">(SharedStringsTable sst)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.sst = sst;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startElement</span><span class="params">(String uri, String localName, String name,</span></span></div><div class="line">                                 Attributes attributes) <span class="keyword">throws</span> SAXException &#123;</div><div class="line">            <span class="comment">// c =&gt; cell</span></div><div class="line">            <span class="keyword">if</span>(name.equals(<span class="string">"c"</span>)) &#123;</div><div class="line">                <span class="comment">// Print the cell reference</span></div><div class="line">                System.out.print(attributes.getValue(<span class="string">"r"</span>) + <span class="string">" - "</span>);</div><div class="line">                <span class="comment">// Figure out if the value is an index in the SST</span></div><div class="line">                String cellType = attributes.getValue(<span class="string">"t"</span>);</div><div class="line">                <span class="keyword">if</span>(cellType != <span class="keyword">null</span> &amp;&amp; cellType.equals(<span class="string">"s"</span>)) &#123;</div><div class="line">                    nextIsString = <span class="keyword">true</span>;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    nextIsString = <span class="keyword">false</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// Clear contents cache</span></div><div class="line">            lastContents = <span class="string">""</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">endElement</span><span class="params">(String uri, String localName, String name)</span></span></div><div class="line">                <span class="keyword">throws</span> SAXException &#123;</div><div class="line">            <span class="comment">// Process the last contents as required.</span></div><div class="line">            <span class="comment">// Do now, as characters() may be called more than once</span></div><div class="line">            <span class="keyword">if</span>(nextIsString) &#123;</div><div class="line">                <span class="keyword">int</span> idx = Integer.parseInt(lastContents);</div><div class="line">                lastContents = <span class="keyword">new</span> XSSFRichTextString(sst.getEntryAt(idx)).toString();</div><div class="line">                nextIsString = <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="comment">// v =&gt; contents of a cell</span></div><div class="line">            <span class="comment">// Output after we've seen the string contents</span></div><div class="line">            <span class="keyword">if</span>(name.equals(<span class="string">"v"</span>)) &#123;</div><div class="line">                System.out.println(lastContents);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">characters</span><span class="params">(<span class="keyword">char</span>[] ch, <span class="keyword">int</span> start, <span class="keyword">int</span> length)</span></span></div><div class="line">                <span class="keyword">throws</span> SAXException &#123;</div><div class="line">            lastContents += <span class="keyword">new</span> String(ch, start, length);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        ReadExcel2007 example = <span class="keyword">new</span> ReadExcel2007();</div><div class="line">        example.processOneSheet(<span class="string">"workbook07.xlsx"</span>);</div><div class="line">        example.processAllSheets(<span class="string">"workbook07.xlsx"</span>);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">A1 - 1</div><div class="line">B1 - 42932</div><div class="line">C1 - This is a String</div><div class="line">D1 - 42932</div><div class="line">C2 - D3 -</div><div class="line">Processing new sheet:</div><div class="line">A1 - 1</div><div class="line">B1 - 42932</div><div class="line">C1 - This is a String</div><div class="line">D1 - 42932</div><div class="line">C2 - D3 -</div><div class="line"></div><div class="line">Processing new sheet:</div><div class="line">A1 - 111</div></pre></td></tr></table></figure>
+<p>学过xml解析的肯定不会陌生,这段代码完全就是解析Xml的Sax解析代码.如果你只看到了官网的这段demo代码,你一定是一脸懵逼的.你并不知道xml的格式.而我已经在前面为你提供了xml的格式,相信你就不会因此而迷茫了.</p>
+<p>几点说明:</p>
+<ul>
+<li>xlsx的Event Model是可以指定sheet来解析的.并且是以1为第一个sheet.</li>
+<li>如果单元格里没有值,则不会有v标签.在真正解析的时候要考虑到这个因素.</li>
+<li>在做User Model的时候也说过,Excel中使用SST来存储字符串常量.所以无论是Xls,Xlsx都有SST.具体的单元格的真是存储实际是SST中的下标.</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了使用Event Model解析两种格式Excel的Demo代码.官网中也没有对这些代码如何应用于生产提供具体的指导.所以在一开始学习和应用于项目中,都会遇到一些不可避免的问题.</p>
+<p>但是在遇到的问题的时候,我们一定要记住,User Model也是基于Event Model.只不过是抽象层级更高.所以理论上的Event Model是可以实现所有User Model的功能.只不过需要我们做更多的思考和探索.但是我相信通过不停的思考与实践.没有问题是解决不掉的.</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://poi.apache.org/spreadsheet/how-to.html" target="_blank" rel="external">The New Halloween Document</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/POI/" rel="tag">POI</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/09/Java POI操作Excel(User Model)/" rel="next" title="Java POI 操作Excel(User Model)">
+                <i class="fa fa-chevron-left"></i> Java POI 操作Excel(User Model)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/27/Java POI操作Excel(Event User Model)/" rel="prev" title="Java POI 操作Excel(Event User Model)">
+                Java POI 操作Excel(Event User Model) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/07/21/Java POI操作Excel(Event Model)/"
+           data-title="Java POI 操作Excel(Event Model)" data-url="http://www.lilongjie.com/2017/07/21/Java POI操作Excel(Event Model)/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ohps7jj0d.bkt.clouddn.com/hdImg_b8686ed3f0146d75d0f6a2184ca08fe115058132891.jpg"
+               alt="longjie" />
+          <p class="site-author-name" itemprop="name">longjie</p>
+          <p class="site-description motion-element" itemprop="description">优秀是一种习惯</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005056032072811" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/longjieli" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xls-amp-xlsx的存储形式"><span class="nav-number">2.</span> <span class="nav-text">xls & xlsx的存储形式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Event-Model节约内存原理"><span class="nav-number">3.</span> <span class="nav-text">Event Model节约内存原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析"><span class="nav-number">4.</span> <span class="nav-text">解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#开发环境"><span class="nav-number">4.1.</span> <span class="nav-text">开发环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解析xls"><span class="nav-number">4.2.</span> <span class="nav-text">解析xls</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析xlsx"><span class="nav-number">5.</span> <span class="nav-text">解析xlsx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  人丑就要多读书&copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  <a class="theme-link" href="http://www.miibeian.gov.cn/">
+    京ICP备16059150号
+  </a>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+</div>
+<div class="theme-info">
+  <a class="theme-link" href="http://www.beian.gov.cn/">
+     京公网安备11011302001239
+   </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lilongjie"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RIaV5TGmetLiYCLnCaiW6yyh-gzGzoHsz", "npfj7UDwEmHNxVsMu9mIqu5O");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+
+</body>
+</html>
