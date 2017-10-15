@@ -4,8 +4,25 @@
 
     
   <url>
+    <loc>http://www.lilongjie.com/2017/10/15/ChainofResponsibility/</loc>
+    <lastmod>2017-10-15T11:14:31.000Z</lastmod>
+    <data>
+        <display>
+        <title>责任链模式的学习与应用</title>
+        <pubTime>2017-10-15T11:18:51.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.lilongjie.com/2017/10/05/Spring%20MVC%20%E7%BB%9F%E4%B8%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</loc>
-    <lastmod>2017-10-05T11:14:11.000Z</lastmod>
+    <lastmod>2017-10-05T11:25:36.000Z</lastmod>
     <data>
         <display>
         <title>Spring MVC 统一异常处理</title>

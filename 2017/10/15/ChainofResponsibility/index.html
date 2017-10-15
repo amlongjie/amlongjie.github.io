@@ -1,0 +1,897 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="-OdrQHCbeUb03hv7XThVR0jFYa_a2UXlAPfEmeuYhck" />
+
+
+
+
+  <meta name="baidu-site-verification" content="w2otIZ1Zxz" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="设计模式," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="责任链模式的方方面面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="责任链模式的学习与应用">
+<meta property="og:url" content="http://www.lilongjie.com/2017/10/15/ChainofResponsibility/index.html">
+<meta property="og:site_name" content="Longjie">
+<meta property="og:description" content="责任链模式的方方面面">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-8c87e72a5658092d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-e9b8e4e2304b9b31.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-10-15T11:14:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="责任链模式的学习与应用">
+<meta name="twitter:description" content="责任链模式的方方面面">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2656062-8c87e72a5658092d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.lilongjie.com/2017/10/15/ChainofResponsibility/"/>
+
+
+
+
+
+  <title> 责任链模式的学习与应用 | Longjie </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260964314&web_id=1260964314" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Longjie</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">everything comes full circle</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://www.lilongjie.com/2017/10/15/ChainofResponsibility/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="longjie">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ohps7jj0d.bkt.clouddn.com/hdImg_b8686ed3f0146d75d0f6a2184ca08fe115058132891.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Longjie">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Longjie" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                责任链模式的学习与应用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-15T19:18:51+08:00">
+                2017-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/10/15/ChainofResponsibility/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/10/15/ChainofResponsibility/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/10/15/ChainofResponsibility/" class="leancloud_visitors" data-flag-title="责任链模式的学习与应用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>责任链模式的方方面面<br><a id="more"></a></p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>责任链模式(Chain of Responsibility)是多个对象都有机会处理请求,从而避免请求的发送者和接受者之间的耦合关系.将这些对象连成一条链,并沿着这条链传递该请求,直到有对象能够处理.</p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>员工想要请假,在OA系统中需要审批.<br>对于不同的请假天数,审批人是不一样的.小于3天,组长审批,大于三天小于7天,主管审批,大于7天小于15天CTO审批.</p>
+<h3 id="典型实现"><a href="#典型实现" class="headerlink" title="典型实现"></a>典型实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> Response <span class="title">handle</span><span class="params">(Request req)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (req.day &lt; <span class="number">0</span> || req.day &gt; <span class="number">15</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (req.day &lt;= <span class="number">3</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Leader().handle(req);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (req.day &lt;= <span class="number">7</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Director().handle(req);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> CTO().handle(req);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>实际场景可能要比这个复杂一些,比如Leader,Director,CTO可能是通过注入而不是new的.</p>
+<h4 id="目前的类图"><a href="#目前的类图" class="headerlink" title="目前的类图:"></a>目前的类图:</h4><p><img src="http://upload-images.jianshu.io/upload_images/2656062-8c87e72a5658092d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点:"></a>优点:</h4><ol>
+<li>代码清晰明了.</li>
+</ol>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点:"></a>缺点:</h4><ol>
+<li>耦合度高,客户端代码依赖所有处理类. 如果后续想要继续添加处理类,就需要继续添加else if.</li>
+<li>顺序也是定死的.如果要改顺序.就必须重新修改.</li>
+</ol>
+<h3 id="改进-责任链"><a href="#改进-责任链" class="headerlink" title="改进[责任链]"></a>改进[责任链]</h3><p>既然我们的所有处理类都实现了IHandler接口.那我们的执行流程在编译层面就是标准化的.那我们能不能通过链接各个处理类的方式,让Client依赖的实现最小呢?当然可以.和链表类似.我们可以构造一个处理器链.只需要在IHandler里添加setNext()方法即可.</p>
+<h4 id="改进后代码"><a href="#改进后代码" class="headerlink" title="改进后代码"></a>改进后代码</h4><p>IHandler实现类:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Leader</span> <span class="keyword">implements</span> <span class="title">IHandler</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> IHandler next;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">handle</span><span class="params">(Request req)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (req.getDay() &lt;= <span class="number">3</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Response(<span class="string">"Leader audit"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.next.handle(req);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNext</span><span class="params">(IHandler handler)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.next = handler;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其他类似,就不贴了.</p>
+<p>业务代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> Response <span class="title">handle</span><span class="params">(Request req)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (req.day &lt; <span class="number">0</span> || req.day &gt; <span class="number">15</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> handler.handle(req);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>客户端代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    IHandler handler = <span class="keyword">new</span> Leader();</div><div class="line">    IHandler director = <span class="keyword">new</span> Director();</div><div class="line">    IHandler cto = <span class="keyword">new</span> CTO();</div><div class="line">    handler.setNext(director);</div><div class="line">    director.setNext(cto);</div><div class="line">    CORDemo01 demo = <span class="keyword">new</span> CORDemo01();</div><div class="line">    demo.handler = handler;</div><div class="line">    Response response = demo.handle(<span class="keyword">new</span> Request(<span class="number">6</span>));</div><div class="line">    System.out.println(response.getMessage());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="改进后的类图"><a href="#改进后的类图" class="headerlink" title="改进后的类图"></a>改进后的类图</h4><p><img src="http://upload-images.jianshu.io/upload_images/2656062-e9b8e4e2304b9b31.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4><ol>
+<li>不再依赖所有实现.而是只依赖第一个实现.而其他的实现通过链接的方式进行组装.</li>
+<li>我们已经可以通过某些方式动态的组装我们的链了.</li>
+</ol>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>纯粹的责任链模式这样就介绍完了.<br>从传统的编程方式过度到责任链模式.实际上还是很容易理解了.为的就是减少调用类与处理类之间的耦合.<br>另外值得注意的是,纯粹的责任链模式,只有一个处理器进行处理.而其他的并不参与执行.<br>而我们在实际使用的场景中,比如过滤器,则是多个处理器都会参与执行.<br>下面就讨论一下.责任链的几个变种.</p>
+<h3 id="责任链模式列表方式实现"><a href="#责任链模式列表方式实现" class="headerlink" title="责任链模式列表方式实现"></a>责任链模式列表方式实现</h3><p>我们看到纯的责任链模式中,使用了链表的形式.并且暴露了第一个执行单元.<br>这种链表的方式在组装的时候如果有很多个节点,将十分繁琐.对于这一部分,有一种常见的优化方案.<br>是将所有的处理器按顺序放到一个List中进行处理.代码如下</p>
+<p>IHandler实现类:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Leader</span> <span class="keyword">implements</span> <span class="title">IHandler</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">handle</span><span class="params">(Request req)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (req.getDay() &lt;= <span class="number">3</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Response(<span class="string">"Leader audit"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其他类似,就不贴了.</p>
+<p>HandlerChain</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">HandlerChain</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> List&lt;IHandler&gt; processList = Lists.newArrayList();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> HandlerChain <span class="title">addHandler</span><span class="params">(IHandler handler)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (handler != <span class="keyword">null</span>) &#123;</div><div class="line">            processList.add(handler);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 链式调用.</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setProcessList</span><span class="params">(List&lt;IHandler&gt; processList)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.processList = processList;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">process</span><span class="params">(Request req)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (IHandler handler : processList) &#123;</div><div class="line">            Response response = handler.handle(req);</div><div class="line">            <span class="keyword">if</span> (response == <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> response;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h4><ol>
+<li>通过这种方式,我们可以较为轻松的组装我们的处理链.</li>
+<li>通过setProcessList方法.我们也可以动态的更改处理流程.</li>
+</ol>
+<h3 id="不纯粹的责任链"><a href="#不纯粹的责任链" class="headerlink" title="不纯粹的责任链"></a>不纯粹的责任链</h3><h4 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h4><p>不纯粹的责任链是指,进入链之后,并不是只有一个处理器才能执行.而是所有的处理器都可能参与执行.<br>典型的场景就是过滤器</p>
+<p>下面我们简单实现一个过滤器.我们有一个List的String.我们将其中长度大于1,首字母是w的字符串都挑选出来.如果用过Java8的朋友肯定知道,使用stream表达式,filter就可以很容易的实现这个需求.但是实际场景中,可能要比这个复杂的多.这里只是举个简单的例子.来说明这种不纯粹的责任链的实现.实现方式采取两种.<br>传统方式.利用Java8 Function的antThen组装多个Function的方式实现过滤器.</p>
+<ul>
+<li><p>传统方式</p>
+<p>接口类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IFilter</span> </span>&#123;</div><div class="line">    <span class="function">List&lt;String&gt; <span class="title">filter</span><span class="params">(List&lt;String&gt; toFilter)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>组装类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">FilterChain</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> List&lt;IFilter&gt; filterList;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">process</span><span class="params">(List&lt;String&gt; toFilter)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (IFilter filter : filterList) &#123;</div><div class="line">            toFilter = filter.filter(toFilter);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> toFilter;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>两个实现类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">LengthFilter</span> <span class="keyword">implements</span> <span class="title">IFilter</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">filter</span><span class="params">(List&lt;String&gt; toFilter)</span> </span>&#123;</div><div class="line">        List&lt;String&gt; result = Lists.newArrayList();</div><div class="line">        <span class="keyword">for</span> (String str : toFilter) &#123;</div><div class="line">            <span class="keyword">if</span> (StringUtils.isNotBlank(str) &amp;&amp; str.length() &gt; <span class="number">1</span>) &#123;</div><div class="line">                result.add(str);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">StartCharFilter</span> <span class="keyword">implements</span> <span class="title">IFilter</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">filter</span><span class="params">(List&lt;String&gt; toFilter)</span> </span>&#123;</div><div class="line">        List&lt;String&gt; result = Lists.newArrayList();</div><div class="line">        <span class="keyword">for</span> (String str : toFilter) &#123;</div><div class="line">            <span class="keyword">if</span> (StringUtils.isNotBlank(str) &amp;&amp; str.startsWith(<span class="string">"w"</span>)) &#123;</div><div class="line">                result.add(str);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>值得注意的是有很多模板代码.这些模板代码在传统方式下,可以通过模板模式进行简化.</p>
+</li>
+<li><p>Java8 Function方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HandlerChain</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> UnaryOperator&lt;List&lt;String&gt;&gt; filterByLength =</div><div class="line">            (List&lt;String&gt; text) -&gt; text.stream().filter(item -&gt; item.length() &gt; <span class="number">1</span>).collect(Collectors.toList());</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> UnaryOperator&lt;List&lt;String&gt;&gt; spellCheckerProcessing =</div><div class="line">            (List&lt;String&gt; text) -&gt; text.stream().filter(item -&gt; item.startsWith(<span class="string">"w"</span>)).collect(Collectors.toList());</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Function&lt;List&lt;String&gt;, List&lt;String&gt;&gt; filterChain =</div><div class="line">            filterByLength.andThen(spellCheckerProcessing);</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;String&gt; <span class="title">filter</span><span class="params">(List&lt;String&gt; input)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> filterChain.apply(input);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>当然在这个需求下,你也可以直接使用stream.将两个filter连接起来.<br>但是如果你考虑纯粹的责任链模式.上面的Java8 Funciton的方式.确实可以节省很多代码和类.</p>
+<h4 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h4><p>Servlet,Struts2,Spring MVC,都有拦截器.而这些拦截器的实现.则也是不纯粹的责任链的一种.因为所有的拦截器都会执行一遍.如果确认拦截,则直接返回.如果通过,则继续执行.看起来和过滤器很像.</p>
+<p>但是拦截器的功能不止于此,拦截器不仅支持preAction操作,还支持postAction操作.我们想要讨论的就是这种设计是如何编码实现的.</p>
+<p>接口定义</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IInterceptor</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">before</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">after</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>拦截器与目标对象的组装类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainExecuteProxy</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Object target;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> List&lt;IInterceptor&gt; interceptorList = Lists.newArrayList();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> MainExecuteProxy <span class="title">addInterceptor</span><span class="params">(IInterceptor interceptor)</span> </span>&#123;</div><div class="line">        interceptorList.add(interceptor);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">execute</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> process(interceptorList.iterator(), target);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">process</span><span class="params">(Iterator&lt;IInterceptor&gt; interceptorIterator, Object target)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (interceptorIterator.hasNext()) &#123;</div><div class="line">            IInterceptor interceptor = interceptorIterator.next();</div><div class="line">            <span class="keyword">boolean</span> before = interceptor.before();</div><div class="line">            <span class="keyword">if</span> (!before) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="string">"执行失败"</span>;</div><div class="line">            &#125;</div><div class="line">            String res = process(interceptorIterator, target);</div><div class="line">            interceptor.after();</div><div class="line">            <span class="keyword">return</span> res;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="comment">// do action.</span></div><div class="line">            System.out.println(<span class="string">"real action"</span>);</div><div class="line">            <span class="keyword">return</span> <span class="string">"执行成功"</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码分析</p>
+<p>MainExecuteProxy类里需要有一个目标对象,用来执行目标方法.而interceptorList就是我们之前讲到的责任链.那这种拦截是怎么实现的呢.主要的逻辑就是process方法.我们的逻辑很简单.就是当我们的所有before方法都为true的时候执行目标对象的方法.当有一个失败的时候,就立马拦截.而在拦截并且执行完目标方法后,我们需要在一个一个的反向执行after方法.因为before/after是配对的.</p>
+<p>为了达到这种目的,我们使用了递归.原因就是递归是可以保留递归现场的.所以的方法在调用的时候进入到方法栈,先进去的在下面,后进去的在上面.所以当我们在执行完目标方法一层一层返回的时候,也是后调用的先执行after.达到了效果.</p>
+<p>Client代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        MainExecuteProxy executeProxy = <span class="keyword">new</span> MainExecuteProxy();</div><div class="line"></div><div class="line">        String result = executeProxy.addInterceptor(<span class="keyword">new</span> IInterceptor() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">before</span><span class="params">()</span> </span>&#123;</div><div class="line">                System.out.println(<span class="string">"aaa"</span>);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">after</span><span class="params">()</span> </span>&#123;</div><div class="line">                System.out.println(<span class="string">"aaa"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;).addInterceptor(<span class="keyword">new</span> IInterceptor() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">before</span><span class="params">()</span> </span>&#123;</div><div class="line">                System.out.println(<span class="string">"bbb"</span>);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">after</span><span class="params">()</span> </span>&#123;</div><div class="line">                System.out.println(<span class="string">"bbb"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;).execute();</div><div class="line"></div><div class="line">        System.out.println(result);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">aaa</div><div class="line">bbb</div><div class="line">aaa</div><div class="line">执行失败</div></pre></td></tr></table></figure>
+<p>先进入拦截器一的before,输出aaa,返回true,继续执行<br>进入拦截器二的before,输出bbb,返回false.停止继续执行,返回执行失败.<br>回到上一层的代码.继续执行拦截器一的after.输出aaa.然后返回.<br>和预期的相符.</p>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>拦截器模式,无论纯粹或变种,在实际开发和框架中都会时常看到,需要我们掌握.并且在合适的时机予以使用.</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a href="https://zhuanlan.zhihu.com/p/24737592" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/24737592</a></li>
+<li>设计模式之禅</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag">设计模式</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/05/Spring MVC 统一异常处理/" rel="next" title="Spring MVC 统一异常处理">
+                <i class="fa fa-chevron-left"></i> Spring MVC 统一异常处理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/10/15/ChainofResponsibility/"
+           data-title="责任链模式的学习与应用" data-url="http://www.lilongjie.com/2017/10/15/ChainofResponsibility/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ohps7jj0d.bkt.clouddn.com/hdImg_b8686ed3f0146d75d0f6a2184ca08fe115058132891.jpg"
+               alt="longjie" />
+          <p class="site-author-name" itemprop="name">longjie</p>
+          <p class="site-description motion-element" itemprop="description">优秀是一种习惯</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005056032072811" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/longjieli" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景"><span class="nav-number">2.</span> <span class="nav-text">场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#典型实现"><span class="nav-number">2.1.</span> <span class="nav-text">典型实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#目前的类图"><span class="nav-number">2.1.1.</span> <span class="nav-text">目前的类图:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">2.1.2.</span> <span class="nav-text">优点:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点"><span class="nav-number">2.1.3.</span> <span class="nav-text">缺点:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改进-责任链"><span class="nav-number">2.2.</span> <span class="nav-text">改进[责任链]</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#改进后代码"><span class="nav-number">2.2.1.</span> <span class="nav-text">改进后代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#改进后的类图"><span class="nav-number">2.2.2.</span> <span class="nav-text">改进后的类图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优点-1"><span class="nav-number">2.2.3.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">2.2.4.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#责任链模式列表方式实现"><span class="nav-number">2.3.</span> <span class="nav-text">责任链模式列表方式实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点-2"><span class="nav-number">2.3.1.</span> <span class="nav-text">优点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不纯粹的责任链"><span class="nav-number">2.4.</span> <span class="nav-text">不纯粹的责任链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#过滤器"><span class="nav-number">2.4.1.</span> <span class="nav-text">过滤器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#拦截器"><span class="nav-number">2.4.2.</span> <span class="nav-text">拦截器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结-1"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  人丑就要多读书&copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  <a class="theme-link" href="http://www.miibeian.gov.cn/">
+    京ICP备16059150号
+  </a>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+</div>
+<div class="theme-info">
+  <a class="theme-link" href="http://www.beian.gov.cn/">
+     京公网安备11011302001239
+   </a>
+   &nbsp;&nbsp;|&nbsp;&nbsp;
+</div>
+<div class="theme-info">
+  <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260964314'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1260964314' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lilongjie"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RIaV5TGmetLiYCLnCaiW6yyh-gzGzoHsz", "npfj7UDwEmHNxVsMu9mIqu5O");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+
+</body>
+</html>
