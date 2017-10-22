@@ -13,4 +13,4 @@
 
 ### @Vue
 
-1.  [Vue学习笔记](http://lilongjie.com//2017/10/15/vue-learn-note/)
+1.  [Vue学习笔记](http://lilongjie.com//2017/10/22/vue-learn-note/)
