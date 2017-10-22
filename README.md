@@ -10,3 +10,7 @@
 ### @设计模式
 
 1.  [责任链模式的学习与应用](http://lilongjie.com//2017/10/15/ChainofResponsibility/)
+
+### @Vue
+
+1.  [Vue学习笔记](http://lilongjie.com//2017/10/15/vue-learn-note/)
