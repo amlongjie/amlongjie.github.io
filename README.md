@@ -14,3 +14,7 @@
 ### @Vue
 
 1.  [Vue学习笔记](http://lilongjie.com//2017/10/22/vue-learn-note/)
+
+### @经济学
+
+1.  [当我们讨论成本的时候.是在说什么](http://www.lilongjie.com/2017/10/22/PersonalCost/)
