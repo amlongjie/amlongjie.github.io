@@ -22,4 +22,5 @@
 ### @经济学
 
 1.  [当我们讨论成本的时候.是在说什么](http://www.lilongjie.com/2017/10/22/PersonalCost/)
+2.  [沉默成本与边际成本](http://www.lilongjie.com/2017/10/29/CostOfSilence/)
 
