@@ -94,7 +94,7 @@
 <meta property="og:url" content="http://www.lilongjie.com/2017/10/29/StringCompress/index.html">
 <meta property="og:site_name" content="Longjie">
 <meta property="og:description" content="日期竟然还可以这样存.">
-<meta property="og:updated_time" content="2017-10-29T08:41:44.000Z">
+<meta property="og:updated_time" content="2017-10-29T08:44:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="谈谈对日期的压缩存储">
 <meta name="twitter:description" content="日期竟然还可以这样存.">
@@ -358,7 +358,7 @@
 <p>到这里看起来已经很好了.但是我们发现.2^31-1 = 2147483647 远远大于99991231.也就是说这个int的前面很多个bit是空闲的.那我们有没有可能继续压缩?</p>
 <h2 id="Mysql如何存储日期"><a href="#Mysql如何存储日期" class="headerlink" title="Mysql如何存储日期"></a>Mysql如何存储日期</h2><p>因为使用int存储日期肯定是肯定不是最优的.那如何知道更优的方案呢.那就是去借鉴其他人的方案.那么数据库一定是一个很好的选择.因为对于数据库来说,能存小,一定不会存大.经过查询资料.Mysql是使用3个byte来存储日期的.具体的公式是</p>
 <blockquote>
-<p>yyyy <em> 32 </em> 16 + mm * 32 + dd</p>
+<p>yyyy*32*16 + mm*32 + dd</p>
 </blockquote>
 <p>具体成二进制表示为：<strong>yyyyyyyy yyyyyyym mmmddddd</strong></p>
 <p>这个公式是什么意思呢.</p>
