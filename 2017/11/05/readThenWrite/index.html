@@ -72,7 +72,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="存储设计," />
+  <meta name="keywords" content="设计模式," />
 
 
 
@@ -88,16 +88,18 @@
 
 
 
-<meta name="description" content="日期竟然还可以这样存.">
+<meta name="description" content="并发环境下的读后写分析">
 <meta property="og:type" content="article">
-<meta property="og:title" content="谈谈对日期的压缩存储">
-<meta property="og:url" content="http://www.lilongjie.com/2017/10/29/StringCompress/index.html">
+<meta property="og:title" content="读后写与更新丢失">
+<meta property="og:url" content="http://www.lilongjie.com/2017/11/05/readThenWrite/index.html">
 <meta property="og:site_name" content="Longjie">
-<meta property="og:description" content="日期竟然还可以这样存.">
-<meta property="og:updated_time" content="2017-10-29T08:44:34.000Z">
+<meta property="og:description" content="并发环境下的读后写分析">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-80cca76a935215c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/800">
+<meta property="og:updated_time" content="2017-11-05T15:38:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="谈谈对日期的压缩存储">
-<meta name="twitter:description" content="日期竟然还可以这样存.">
+<meta name="twitter:title" content="读后写与更新丢失">
+<meta name="twitter:description" content="并发环境下的读后写分析">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2656062-80cca76a935215c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/800">
 
 
 
@@ -125,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://www.lilongjie.com/2017/10/29/StringCompress/"/>
+  <link rel="canonical" href="http://www.lilongjie.com/2017/11/05/readThenWrite/"/>
 
 
 
 
 
-  <title> 谈谈对日期的压缩存储 | Longjie </title>
+  <title> 读后写与更新丢失 | Longjie </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -258,7 +260,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://www.lilongjie.com/2017/10/29/StringCompress/">
+  <link itemprop="mainEntityOfPage" href="http://www.lilongjie.com/2017/11/05/readThenWrite/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="longjie">
@@ -282,7 +284,7 @@
             
             
               
-                谈谈对日期的压缩存储
+                读后写与更新丢失
               
             
           </h1>
@@ -295,8 +297,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-29T16:40:00+08:00">
-                2017-10-29
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-05T23:33:51+08:00">
+                2017-11-05
               </time>
             
 
@@ -311,8 +313,8 @@
             
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
-                <a href="/2017/10/29/StringCompress/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/10/29/StringCompress/" itemprop="commentCount"></span>
+                <a href="/2017/11/05/readThenWrite/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/11/05/readThenWrite/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -322,7 +324,7 @@
 
           
           
-             <span id="/2017/10/29/StringCompress/" class="leancloud_visitors" data-flag-title="谈谈对日期的压缩存储">
+             <span id="/2017/11/05/readThenWrite/" class="leancloud_visitors" data-flag-title="读后写与更新丢失">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -347,32 +349,87 @@
       
 
       
-        <p>日期竟然还可以这样存.<br><a id="more"></a></p>
-<p>最近在项目中做缓存的性能优化,对热点代码/TP时间进行分析之后.发现这些性能不理想的请求,都是cache的value比较大导致的.所以自然想到的就是精简字段.并且对数据进行压缩存储.这篇文章就谈谈其中对日期的压缩处理.</p>
-<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>最常规的日期存储方式应该就是字符串.如”20171029”,那这样的字符串到底占用多大空间呢.我们可以让代码告诉我们.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    String date = <span class="string">"20171029"</span>;</div><div class="line">    <span class="keyword">byte</span>[] dateBytes = date.getBytes();</div><div class="line">    System.out.println(dateBytes.length);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>运行结果是: 8</p>
-<p>我们可以看到,使用字符串存储的日期.要占用8个字节.如果一个数据包里大部分都是日期.那1KB的数据包只能存放128个日期.当日期很多的时候,会占用很多空间.</p>
-<h2 id="Long"><a href="#Long" class="headerlink" title="Long"></a>Long</h2><p>了解Unix时间的都知道.我们可以用一个long类型来存储日期.Java里long类型占用的空间也是8byte.和上面的字符串是一样的.</p>
-<h2 id="Int"><a href="#Int" class="headerlink" title="Int"></a>Int</h2><p>int在Java中占用4Byte.所代表的数字范围是 -2^32 ~ 2^31-1.用来存储日期完全够用.所以我们完全可以使用int类型来存储时间.这样下来.我们用1KB的数据包就能存放256个日期了.</p>
-<p>到这里看起来已经很好了.但是我们发现.2^31-1 = 2147483647 远远大于99991231.也就是说这个int的前面很多个bit是空闲的.那我们有没有可能继续压缩?</p>
-<h2 id="Mysql如何存储日期"><a href="#Mysql如何存储日期" class="headerlink" title="Mysql如何存储日期"></a>Mysql如何存储日期</h2><p>因为使用int存储日期肯定是肯定不是最优的.那如何知道更优的方案呢.那就是去借鉴其他人的方案.那么数据库一定是一个很好的选择.因为对于数据库来说,能存小,一定不会存大.经过查询资料.Mysql是使用3个byte来存储日期的.具体的公式是</p>
-<blockquote>
-<p>yyyy*32*16 + mm*32 + dd</p>
-</blockquote>
-<p>具体成二进制表示为：<strong>yyyyyyyy yyyyyyym mmmddddd</strong></p>
-<p>这个公式是什么意思呢.</p>
+        <p>并发环境下的读后写分析</p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>读后写是一个典型多变但又常见的场景.比如缓存更新.下单扣减库存.这个场景下如果稍不注意就会写出bug.而且bug并不是每次都出现.排查的时候如果没有这方面的经验,可能无从下手.</p>
+<h2 id="Java场景下的读后写"><a href="#Java场景下的读后写" class="headerlink" title="Java场景下的读后写"></a>Java场景下的读后写</h2><p>Code:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Counter</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Map&lt;String, Integer&gt; counter = Maps.newHashMap();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(String key)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">       <span class="keyword">if</span> (counter.containsKey(key)) &#123;</div><div class="line">           counter.put(key, counter.get(key) + <span class="number">1</span>);</div><div class="line">       &#125; <span class="keyword">else</span> &#123;</div><div class="line">           Thread.sleep(<span class="number">1000</span>);</div><div class="line">           counter.put(key, <span class="number">1</span>);</div><div class="line">       &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这是一个简单的给key计数的功能:</p>
 <ol>
-<li>日的范围是1~31.我们使用5个bit就足够存储.</li>
-<li>月的范围是1~12.我们使用4个bit就足够存储.</li>
-<li>对于3个byte的24位.还剩下15位.可以存储2^15-1 = 32767个数据.用来当年已经足够了.</li>
+<li>如果key存在就给value加1.</li>
+<li>如果key不存在就设置为1.</li>
 </ol>
-<h2 id="Unix时间戳-Mysql存储方式-2Byte"><a href="#Unix时间戳-Mysql存储方式-2Byte" class="headerlink" title="Unix时间戳 + Mysql存储方式 = 2Byte"></a>Unix时间戳 + Mysql存储方式 = 2Byte</h2><p>看了Mysql的存储方案,不难发现,使用3Byte确实不错.但是我们能不能做的更好,只用2个Byte.<br>我们可以看下.对于日和月的存储已经没有压缩空间了.如果使用2个byte.则还有7个bit供我们使用.</p>
-<p>2^7=128.如果直接用来存年份.肯定是不够的.但是Unix时间戳还记得吗.它是从1970年1月1日到现在的毫秒差.这个相对的思路如果加到我们的设计里呢.</p>
-<p>我们这127不用来做绝对的时间,而是作为相对的时间存储.那参照日期如果采用2017年.则可以存储到2017 + 127 = 2144.对于一般的业务系统.128年的偏移,足够我们使用了.</p>
-<p>使用二进制来表示则日期格式为:yyyyyyym mmmddddd</p>
-<p>而使用这种2Byte类型的存储.则1KB的数据包则可以存储512个日期.相比一开始的128.多了3倍.</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>你可能需要知道,2M的数据和2K的数据.在网络传输中有什么区别.<br>才能理解这篇文章为什么会要对这种看似没什么用字符串存储进行优化.<br>不过没关系.多了解一下,总没有错.</p>
+<p>这个看似完美的功能在单线程的时候可以很好的工作.不会有什么问题.</p>
+<p>但是一到并发环境.就会遇到线程安全问题.</p>
+<ol>
+<li>如果同时有两个线程进入了方法.</li>
+<li>这个key并没有在counter中.那都会走counter.put(key, 1)这个方法.</li>
+</ol>
+<p>结果就是本来应该是2.但是记录进去的只有1.if里的逻辑同理.</p>
+<p>我们可以测试一下上面的代码.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">    Runnable runnable = () -&gt;&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            add(<span class="string">"key"</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    Thread t1 = <span class="keyword">new</span> Thread(runnable);</div><div class="line">    Thread t2 = <span class="keyword">new</span> Thread(runnable);</div><div class="line"></div><div class="line">    t1.start();</div><div class="line">    t2.start();</div><div class="line"></div><div class="line">    t1.join();</div><div class="line">    t2.join();</div><div class="line"></div><div class="line">    System.out.println(counter);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码很简单.两个线程,都去调用add方法.然后主线程等待处理完成.打印counter.</p>
+<p>结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;key=1&#125;</div></pre></td></tr></table></figure>
+<p>按道理两个线程进去,应该是2.不过很遗憾,结果是1.这就是典型的读后写场景.读就是counter.containsKey(key)<br>写就是counter.put(key, 1) 和 counter.put(key, counter.get(key) + 1)</p>
+<p>出现这个问题的原因实际上是因为我们的读和写并不是原子操作.原子操作是指jvm层面是一个指令(Instruction).那如何保证读和写的原子性.最常用的方法就是加锁.</p>
+<p>实现代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(String key)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">    <span class="keyword">if</span> (counter.containsKey(key)) &#123;</div><div class="line">        counter.put(key, counter.get(key) + <span class="number">1</span>);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        Thread.sleep(<span class="number">1000</span>);</div><div class="line">        counter.put(key, <span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>再看输出：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;key=<span class="number">2</span>&#125;</div></pre></td></tr></table></figure></p>
+<p>我们通过对方法加锁来达到保证整个操作是原子的.<br>当然如果这样add方法的性能会下降.但是却保证了安全与正确.</p>
+<p>这个例子比较简单,以目前Java的普及程度.大家都会在写代码的时候考虑到代码中的线程安全.但是这个简单的模型在其他环境中,可能并不那么好识别.</p>
+<p>总结：<strong>单机模式下,多线程读后写,存在并发更新丢失问题</strong></p>
+<h2 id="分布式缓存更新场景下的读后写"><a href="#分布式缓存更新场景下的读后写" class="headerlink" title="分布式缓存更新场景下的读后写"></a>分布式缓存更新场景下的读后写</h2><p><img src="http://upload-images.jianshu.io/upload_images/2656062-80cca76a935215c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/800" alt=""></p>
+<p>这是一个缓存服务的更新流程.按照01~05.当写数据库之后发消息到MQ.MQ推到Cache的更新服务上.更新服务查数据.写入到缓存.</p>
+<p>这个场景和上面的场景相比,更加丰富.如果经验不足,也不容易联想到上面那个场景.<br>先看下问题.04~05两步是典型的读后写.没有保证原子操作.</p>
+<p>这会导致什么.</p>
+<ol>
+<li>如果DB连着更新了两次.消息被发送到两台机器或一台机器的两个处理线程.</li>
+<li>后一次更新中查出来的新数据先被写入了缓存.</li>
+<li>前一次更新的数据后被写入了缓存.</li>
+</ol>
+<p>那实际上当前的Cache是有脏数据的.最后一次更新的数据丢了.这个问题发现的几率要取决于是否同key频繁写.频繁写的情况下是否会出现后更新的先被写进去.所以有时候问题时隐时现.不好排查.</p>
+<p>解决方案中最简单的还是加锁.<br>只不过在分布式场景下需要加分布式锁.</p>
+<p>这个坑我就踩过.查了好久.从db写入.到发消息.到写缓存.所有的日志都能串起来.就是数据不对.后来偶然想到了时序才想明白.</p>
+<p>总结：<strong>多机的分布式场景下.读后写容易被忽略.需要重视</strong></p>
+<h2 id="DB的读后写场景"><a href="#DB的读后写场景" class="headerlink" title="DB的读后写场景"></a>DB的读后写场景</h2><p>下单扣减库存是一个典型的读后写场景.</p>
+<ol>
+<li>我们从数据库中读取数据:select * from product where id = 123;</li>
+<li>校验库存是否够用 if product.getInventory() &gt; toOrder</li>
+<li>如果够用,我们就update product set product set inventory = inventory - #{toOrder} where id = 123;</li>
+</ol>
+<p>熟悉的场景,熟悉的bug.</p>
+<ol>
+<li>如果有两个扣减请求过来.我们将数据从DB中读取出来后.</li>
+<li>在内存中扣减的情况,</li>
+<li>可能超卖.可能更新库存数据错误.</li>
+</ol>
+<p>这时候.有的开发可能觉得.这好办.数据库我加个事务.不就解决了么.真的可以解决么?看情况.这要根据数据库的隔离级别来分析.</p>
+<p>一般情况下,mysql的隔离级别都使用read commited. 你读取的时候如果另一个扣减事务没提交.你是无法感知的.所以加事务并不能解决问题.但是加事务.确实是正确解决路上的一个步骤.</p>
+<p>延续我们上面的方案.我们想到的办法应该是加锁.那锁怎么加.<br>关于数据库的更新丢失问题.有两种解决方案.一种叫<strong>乐观锁</strong>.一种叫<strong>悲观锁</strong>.</p>
+<h3 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h3><p>乐观锁中,我们会引入一个类似版本号的概念.比如给每一行加入一个version.</p>
+<ol>
+<li>假定.我们查出的数据version为1</li>
+<li>那我们这么update：update product set version = version + 1 where version = 1</li>
+<li>如果更新成功.说明中间数据没有被修改.这次更新是成功的.如果失败.说明数据被修改过.我们需要重新读取数据.进行操作.</li>
+</ol>
+<p>那在我们这个扣减库存的场景中.</p>
+<ul>
+<li>我们可以不用引入版本号.而使用库存做版本号.</li>
+<li>再进一步.我们实际上并不需要严格按照版本号来做.可以使用inventory - #{toOrder} &gt; 0.我们只要判断,扣减之后是否库存大于0.业务上就可以满足需求.如果失败.就下单失败.</li>
+</ul>
+<p>总结：<strong>乐观锁不是真的锁.而是使用一种机制来保证读后写的正确性.这种方式可能会大量重试.需要根据业务场景合理使用.</strong></p>
+<h3 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h3><p>悲观锁,则类似于我们之前的处理办法.不过我们是使用Mysql的锁来实现.</p>
+<p>Mysql的Innodb存储引擎支持行级锁.并且有两种,读共享锁和写独占锁.</p>
+<p>读共享锁在这个场景下并没有用.所以直接看写独占锁.</p>
+<p>写独占锁使用很简单.只需要在select 的语句后加上for update即可.</p>
+<p>那我们的查询sql就修改为</p>
+<blockquote>
+<p>select * from product where id = 123 for update;</p>
+</blockquote>
+<p>然后我们进行更新.提交事务就可以安全的完成这个工作了.</p>
+<p><strong>需要注意的是.整个操作要加事务.</strong></p>
+<p>总结：<strong>悲观锁是由数据库的锁来保证读后写的正确性</strong></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>读后写是一个很常见的模型.这个模型下可能有很多场景.需要我们提高识别能力.写出正确的代码.</p>
 
       
     </div>
@@ -396,7 +453,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/存储设计/" rel="tag">存储设计</a>
+            <a href="/tags/设计模式/" rel="tag">设计模式</a>
           
         </div>
       
@@ -405,8 +462,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/10/22/PersonalCost/" rel="next" title="当我们讨论成本的时候.是在说什么">
-                <i class="fa fa-chevron-left"></i> 当我们讨论成本的时候.是在说什么
+              <a href="/2017/10/29/CostOfSilence/" rel="next" title="沉没成本与边际成本">
+                <i class="fa fa-chevron-left"></i> 沉没成本与边际成本
               </a>
             
           </div>
@@ -414,10 +471,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/10/29/CostOfSilence/" rel="prev" title="沉没成本与边际成本">
-                沉没成本与边际成本 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -445,8 +498,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/10/29/StringCompress/"
-           data-title="谈谈对日期的压缩存储" data-url="http://www.lilongjie.com/2017/10/29/StringCompress/">
+      <div class="ds-thread" data-thread-key="2017/11/05/readThenWrite/"
+           data-title="读后写与更新丢失" data-url="http://www.lilongjie.com/2017/11/05/readThenWrite/">
       </div>
     
   </div>
@@ -556,7 +609,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串"><span class="nav-number">1.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Long"><span class="nav-number">2.</span> <span class="nav-text">Long</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Int"><span class="nav-number">3.</span> <span class="nav-text">Int</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mysql如何存储日期"><span class="nav-number">4.</span> <span class="nav-text">Mysql如何存储日期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Unix时间戳-Mysql存储方式-2Byte"><span class="nav-number">5.</span> <span class="nav-text">Unix时间戳 + Mysql存储方式 = 2Byte</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java场景下的读后写"><span class="nav-number">2.</span> <span class="nav-text">Java场景下的读后写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式缓存更新场景下的读后写"><span class="nav-number">3.</span> <span class="nav-text">分布式缓存更新场景下的读后写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DB的读后写场景"><span class="nav-number">4.</span> <span class="nav-text">DB的读后写场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#乐观锁"><span class="nav-number">4.1.</span> <span class="nav-text">乐观锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#悲观锁"><span class="nav-number">4.2.</span> <span class="nav-text">悲观锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
