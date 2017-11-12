@@ -1,0 +1,926 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="-OdrQHCbeUb03hv7XThVR0jFYa_a2UXlAPfEmeuYhck" />
+
+
+
+
+  <meta name="baidu-site-verification" content="w2otIZ1Zxz" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Java泛型完整总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你不知道的Java泛型">
+<meta property="og:url" content="http://www.lilongjie.com/2017/11/12/JavaGeneric/index.html">
+<meta property="og:site_name" content="Longjie">
+<meta property="og:description" content="Java泛型完整总结">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-0dfe0dd67c5b647a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-d8a51360be506556.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2656062-a906bb10f0583493.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-11-12T15:50:31.269Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你不知道的Java泛型">
+<meta name="twitter:description" content="Java泛型完整总结">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2656062-0dfe0dd67c5b647a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.lilongjie.com/2017/11/12/JavaGeneric/"/>
+
+
+
+
+
+  <title> 你不知道的Java泛型 | Longjie </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260964314&web_id=1260964314" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Longjie</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">everything comes full circle</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://www.lilongjie.com/2017/11/12/JavaGeneric/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="longjie">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ohps7jj0d.bkt.clouddn.com/hdImg_b8686ed3f0146d75d0f6a2184ca08fe115058132891.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Longjie">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Longjie" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                你不知道的Java泛型
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-12T23:38:01+08:00">
+                2017-11-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/11/12/JavaGeneric/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/11/12/JavaGeneric/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/11/12/JavaGeneric/" class="leancloud_visitors" data-flag-title="你不知道的Java泛型">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Java泛型完整总结<br><a id="more"></a></p>
+<p>Java泛型是JDK1.5引入的新特性.如果用一句话总结泛型的作用,就是<strong>类型参数化.</strong></p>
+<h2 id="为什么要引入泛型"><a href="#为什么要引入泛型" class="headerlink" title="为什么要引入泛型"></a>为什么要引入泛型</h2><p>在JDK1.5之前,如果你使用集合类,代码大致是这样的<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    List list = <span class="keyword">new</span> ArrayList();</div><div class="line">    list.add(<span class="string">"bob"</span>);</div><div class="line">    list.add(<span class="string">"jack"</span>);</div><div class="line">    list.add(<span class="number">123</span>);</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.size(); i++) &#123;</div><div class="line">        System.out.println((String)list.get(i));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这段代码编译没有任何错误.但是一执行就会抛ClassCastException.</p>
+<p>我们总结一下这段代码存在的问题:</p>
+<ol>
+<li>List中存放的数据无法规范</li>
+<li>编译期无法检查出此类问题.而到运行期发现再去找bug成本很高</li>
+</ol>
+<p>为了解决这个问题.JDK1.5中引入了泛型的概念.</p>
+<h2 id="泛型的引入"><a href="#泛型的引入" class="headerlink" title="泛型的引入"></a>泛型的引入</h2><p>到了JDK1.5之后,代码就成了这个样子.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">    list.add(<span class="string">"bob"</span>);</div><div class="line">    list.add(<span class="string">"jack"</span>);</div><div class="line">    list.add(<span class="number">123</span>);</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.size(); i++) &#123;</div><div class="line">        System.out.println((list.get(i));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这段代码在编译期就已经提示我们不能往list里放入123.<br>通过引入泛型,JDK为我们解决了之前代码存在的问题.</p>
+<ol>
+<li>我们可以通过泛型规范集合中的元素类型.</li>
+<li>在编译期间就检查出语法错误.</li>
+</ol>
+<p>一切看起来很美好.</p>
+<h2 id="泛型的擦除"><a href="#泛型的擦除" class="headerlink" title="泛型的擦除"></a>泛型的擦除</h2><p>由于泛型是JDK在1.5才提供的功能.JDK作为一个软件,在升级的过程中,要做向下兼容以保证低版本升级到高版本的成本尽可能的小.</p>
+<p>这也就导致Java的泛型是在编译器这个层面来实现的.在生成Java字节码层面是不存在泛型的类型的.</p>
+<p>这也就是说.不存在List&lt; String&gt;.class和List&lt; Integer&gt;.class.而是只有List.class.如何证明这个事情呢.我们做几个实验.</p>
+<h3 id="类型比较"><a href="#类型比较" class="headerlink" title="类型比较"></a>类型比较</h3><p>Code:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">    List&lt;Integer&gt; list2 = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</div><div class="line">    System.out.println(list.getClass() == list2.getClass());</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这段代码的执行结果是true.</p>
+<p>看起来似乎可以证明,只有List.class.而没有List&lt; String&gt;.class和List&lt; Integer&gt;.class.</p>
+<p>但是还是觉得不够通透.我们继续下一个实验.</p>
+<h3 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h3><p>如果泛型在运行时并不存在,则List的add方法在运行时的方法签名应该和JDK1.5之前保持一致.</p>
+<blockquote>
+<p>boolean add(Object e);</p>
+</blockquote>
+<p>而如果泛型在运行时存在,则方法签名会类似于:</p>
+<blockquote>
+<p>boolean add(String e);</p>
+</blockquote>
+<p>Java的反射可以在在运行时获取,操作类的方法.所以我们只需要看能否获取到指定签名的Method对象就知道在运行时是否存在该方法.</p>
+<p>Code：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> NoSuchMethodException </span>&#123;</div><div class="line">    List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    Method method = list.getClass().getMethod(<span class="string">"add"</span>, String.class);</div><div class="line">    System.out.println(method);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Console output：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Exception in thread <span class="string">"main"</span> java.lang.NoSuchMethodException:</div><div class="line">java.util.ArrayList.add(java.lang.String)</div><div class="line">	at java.lang.Class.getMethod(Class.java:<span class="number">1786</span>)</div></pre></td></tr></table></figure></p>
+<p>List中没有add(String e)方法.继续测试:</p>
+<p>Code：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> NoSuchMethodException </span>&#123;</div><div class="line">    List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    Method method = list.getClass().getMethod(<span class="string">"add"</span>, Object.class);</div><div class="line">    System.out.println(method);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Console output：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">boolean</span> java.util.ArrayList.add(java.lang.Object)</div></pre></td></tr></table></figure></p>
+<p>代码执行正常.在运行时我们找到了add(Object e)方法.</p>
+<p>到了这个层面,基本可以确定在运行时,泛型确实被擦除了.但是这个分析过程看起来有点曲线救国的感觉.我们能不能有一个一针见血的方法来证明Java在运行时是没有泛型的呢.</p>
+<h3 id="Java指令代码"><a href="#Java指令代码" class="headerlink" title="Java指令代码"></a>Java指令代码</h3><p>既然运行时没泛型.那好.我们去看一下编译后的指令代码不就可以了么.</p>
+<p>先写一个方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoClass</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        list.add(<span class="string">"aaa"</span>);</div><div class="line">        System.out.println(list);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们先生成这个类的class文件</p>
+<blockquote>
+<p>javac DemoClass.java</p>
+</blockquote>
+<p>然后通过javap命令生成Java指令代码</p>
+<blockquote>
+<p>javap -verbose DemoClass</p>
+</blockquote>
+<p>然后我们得到了一段代码.为了方便阅读.省略了前面大部分.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">  public static void main(java.lang.String[]);</div><div class="line">    descriptor: ([Ljava/lang/String;)V</div><div class="line">    flags: ACC_PUBLIC, ACC_STATIC</div><div class="line">    Code:</div><div class="line">      stack=2, locals=2, args_size=1</div><div class="line">         0: new           #2                  // class java/util/ArrayList</div><div class="line">         3: dup</div><div class="line">         4: invokespecial #3                  // Method java/util/ArrayList.&quot;&lt;init&gt;&quot;:()V</div><div class="line">         7: astore_1</div><div class="line">         8: aload_1</div><div class="line">         9: ldc           #4                  // String aaa</div><div class="line">        11: invokeinterface #5,  2            // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z</div><div class="line">        16: pop</div><div class="line">        17: getstatic     #6                  // Field java/lang/System.out:Ljava/io/PrintStream;</div><div class="line">        20: aload_1</div><div class="line">        21: invokevirtual #7                  // Method java/io/PrintStream.println:(Ljava/lang/Object;)V</div><div class="line">        24: return</div><div class="line">      LineNumberTable:</div><div class="line">        line 9: 0</div><div class="line">        line 10: 8</div><div class="line">        line 11: 17</div><div class="line">        line 12: 24</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们看这个main方法Code部分的11:</p>
+<blockquote>
+<p>11: invokeinterface #5,  2<br> // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z</p>
+</blockquote>
+<p>看到了吧.调用的方法签名中的参数是Object.不是String.</p>
+<p>到这里我们已经完全可以确定Java泛型是编译器层面的解决方法.而不是运行时.</p>
+<h2 id="泛型类"><a href="#泛型类" class="headerlink" title="泛型类"></a>泛型类</h2><p>泛型除了用在集合中,我们也可以自定义泛型类.</p>
+<p>Code：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestClass</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">private</span> T data;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TestClass</span><span class="params">(T data)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.data = data;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(T data)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.data = data;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getData</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> data;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们再写一段测试代码：<br>Code:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">TestClass&lt;String&gt; testClass = <span class="keyword">new</span> TestClass&lt;&gt;(<span class="string">"bob"</span>);</div><div class="line">String name = testClass.getData();</div><div class="line">System.out.println(name);</div></pre></td></tr></table></figure></p>
+<p>Console output:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bob</div></pre></td></tr></table></figure></p>
+<p>到这里我们有一个问题.泛型在运行时已经被擦除.</p>
+<blockquote>
+<p>   String name = testClass.getData();</p>
+</blockquote>
+<p>在运行时返回的应该是Object类型.但是我们却可以直接赋值给String类型.这是为什么.为了搞清楚这个问题.依旧可以去看一下Java的指令码.</p>
+<p>我们依旧只看一小段关键部分:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">11: invokevirtual #6                  // Method getData:()Ljava/lang/Object;</div><div class="line">14: checkcast     #7                  // class java/lang/String</div><div class="line">17: astore_2</div></pre></td></tr></table></figure></p>
+<p>当我们在执行getData之后,并没有直接进行astore操作.而是有一个checkcast指令.<br>关于这个指令的描述是：<strong>Check whether object is of given type</strong></p>
+<p>从这个字面我们可以看出这其实是一个检查类型的指令.但是这个解释并没有说明它的完整功能.<br>我们可以通过简单测试发现.这个指令是在强制类型转换的时候出现.如果类型可以转则通过.如果类型转换失败.则会抛出ClassCastException.关于这个指令可以自行测试.</p>
+<p>到这里我们就可以知道,之所以Object可以直接赋值给String.是JVM帮我们做了强转.</p>
+<h2 id="泛型擦除带来的问题"><a href="#泛型擦除带来的问题" class="headerlink" title="泛型擦除带来的问题"></a>泛型擦除带来的问题</h2><h3 id="类型丢失"><a href="#类型丢失" class="headerlink" title="类型丢失"></a>类型丢失</h3><p>由于泛型在运行时被擦除.所以也就无法在运行时对泛型的类型进行操作.</p>
+<ol>
+<li>无法对泛型进行类型判断</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/2656062-0dfe0dd67c5b647a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<ol>
+<li>无法根据T生成对象<br><img src="http://upload-images.jianshu.io/upload_images/2656062-d8a51360be506556.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></li>
+</ol>
+<h3 id="泛型与多态"><a href="#泛型与多态" class="headerlink" title="泛型与多态"></a>泛型与多态</h3><p>直接看代码<br>ParentClass<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ParentClass</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(T t)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"parentClass"</span>);</div><div class="line">        System.out.println(t);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>ChildClass<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChildClass</span> <span class="keyword">extends</span> <span class="title">ParentClass</span>&lt;<span class="title">String</span>&gt; </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"childClass"</span>);</div><div class="line">        System.out.println(s);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>先看测试代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">      ParentClass&lt;String&gt; childClass = <span class="keyword">new</span> ChildClass();</div><div class="line">      childClass.print(<span class="string">"aaa"</span>);</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>它的输出是<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">childClass</div><div class="line">aaa</div></pre></td></tr></table></figure></p>
+<p>可以看到,符合我们对Java运行时绑定的预期.<br>但是这里有个问题.由于运行时没有泛型.所以父类的print方法签名应该是</p>
+<blockquote>
+<p>public void print(Object t);</p>
+</blockquote>
+<p>而我们的子类里的print方法签名是</p>
+<blockquote>
+<p>public void print(String s);</p>
+</blockquote>
+<p>根据Java对方法重写的定义,要求的是方法签名完全一致.<br>而我们的代码里其实并没有跟父类完全一样的方法签名.<br>所以根据动态绑定的原理,应该是调用父类的print(Object t)方法而不是子类的print(String s)</p>
+<p>为了搞清楚这个问题,我们需要去看一下ChildClass的指令码.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2656062-a906bb10f0583493.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>我们根据指令码可以看到.ChildClass里有两个print方法.</p>
+<p>一个和父类相同,print(Object).而另一个和子类中定义的相同.print(String).<br>而在print(Object)中调用了print(String).</p>
+<p>到这里我们就明白了.实际上在这种涉及泛型的多态中,jvm给我们隐式的生成了一个方法(一般叫做桥方法)来达到动态绑定的目的.</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.jianshu.com/p/e4e4401c3d46" target="_blank" rel="external">Java泛型的学习和使用</a><br><a href="http://www.infoq.com/cn/articles/cf-java-generics" target="_blank" rel="external">Java深度历险（五）——Java泛型</a><br><a href="https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-6.html" target="_blank" rel="external">Oracle JVM指令解释</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag">Java</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/05/readThenWrite/" rel="next" title="读后写与更新丢失">
+                <i class="fa fa-chevron-left"></i> 读后写与更新丢失
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/11/12/JavaGeneric/"
+           data-title="你不知道的Java泛型" data-url="http://www.lilongjie.com/2017/11/12/JavaGeneric/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ohps7jj0d.bkt.clouddn.com/hdImg_b8686ed3f0146d75d0f6a2184ca08fe115058132891.jpg"
+               alt="longjie" />
+          <p class="site-author-name" itemprop="name">longjie</p>
+          <p class="site-description motion-element" itemprop="description">优秀是一种习惯</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005056032072811" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/longjieli" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要引入泛型"><span class="nav-number">1.</span> <span class="nav-text">为什么要引入泛型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泛型的引入"><span class="nav-number">2.</span> <span class="nav-text">泛型的引入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泛型的擦除"><span class="nav-number">3.</span> <span class="nav-text">泛型的擦除</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类型比较"><span class="nav-number">3.1.</span> <span class="nav-text">类型比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反射"><span class="nav-number">3.2.</span> <span class="nav-text">反射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java指令代码"><span class="nav-number">3.3.</span> <span class="nav-text">Java指令代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泛型类"><span class="nav-number">4.</span> <span class="nav-text">泛型类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泛型擦除带来的问题"><span class="nav-number">5.</span> <span class="nav-text">泛型擦除带来的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类型丢失"><span class="nav-number">5.1.</span> <span class="nav-text">类型丢失</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型与多态"><span class="nav-number">5.2.</span> <span class="nav-text">泛型与多态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  人丑就要多读书&copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  <a class="theme-link" href="http://www.miibeian.gov.cn/">
+    京ICP备16059150号
+  </a>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+</div>
+<div class="theme-info">
+  <a class="theme-link" href="http://www.beian.gov.cn/">
+     京公网安备11011302001239
+   </a>
+   &nbsp;&nbsp;|&nbsp;&nbsp;
+</div>
+<div class="theme-info">
+  <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260964314'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1260964314' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lilongjie"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RIaV5TGmetLiYCLnCaiW6yyh-gzGzoHsz", "npfj7UDwEmHNxVsMu9mIqu5O");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+
+</body>
+</html>
